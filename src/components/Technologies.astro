@@ -1,0 +1,15 @@
+<section class="flex justify-around pt-20">
+
+</section>
+<script>
+  import { tsParticles } from "tsparticles-engine";
+
+  tsParticles
+    .loadJSON("tsparticles", "/particles.json")
+    .then(container => {
+        console.log("callback - tsparticles config loaded");
+    })
+    .catch(error => {
+        console.error(error);
+    });
+</script>

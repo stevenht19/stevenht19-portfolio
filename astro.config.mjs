@@ -7,6 +7,11 @@ import tailwind from '@astrojs/tailwind';
 import preact from '@astrojs/preact';
 
 // https://astro.build/config
+import image from "@astrojs/image";
+
+// https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), preact({ compat: true })]
+  integrations: [tailwind(), preact({
+    compat: true
+  }), image({ serviceEntryPoint: '@astrojs/image/sharp' })]
 });
