@@ -1,5 +1,6 @@
 ---
-import Header from '../components/Header.jsx';
+import Header from '../components/layout/Header/Header.jsx';
+import Particles from '../components/Particles.astro';
 
 const { title } = Astro.props
 ---
@@ -10,12 +11,14 @@ const { title } = Astro.props
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 		<meta name='viewport' content='width=device-width' />
 		<meta name='generator' content={Astro.generator} />
+		<meta name="description" content="Steven Hernández Web Developer from Lima, Perú.">
 		<title>{title}</title>
 	</head>
-	<body class='bg-gradient-to-t from-gray-900 to-black bg-no-repeat'>
+	<body class='bg-gradient-to-tl from-gray-900 to-black bg-no-repeat'>
 		<Header client:idle />
     <main class='flex flex-col max-w-6xl mx-auto px-8 min-h-screen'>
       <slot />
     </main>
+		<Particles />
 	</body>
 </html>

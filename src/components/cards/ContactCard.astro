@@ -1,0 +1,10 @@
+---
+const { title } = Astro.props
+---
+
+<div
+  class="p-5 flex justify-between items-center flex-1 bg-neutral-900/20 shadow shadow-blue-900/25 h-50 hover:bg-neutral-900/[0.1] border-b-2 border-blue-200 hover:scale-[1.01] transition-transform cursor-pointer"
+>
+  <h2 class="font-medium">{title}</h2>
+  <slot />
+</div>

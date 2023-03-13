@@ -1,14 +1,27 @@
 ---
-import ContactCard from './ContactCard.astro';
+import ContactCard from './cards/ContactCard.astro';
 import Github from './icons/Github.astro';
 import Gmail from './icons/Gmail.astro';
 import Linkedln from './icons/Linkedln.astro';
-
+import Link from './Link.astro';
 ---
 
-<section id="contact" class="contact">
+<section id="contact" class="pt-20">
   <h2 class="text-white font-bold text-4xl pt-10">Contact</h2>
-  <p class="text-gray-400 text-lg mt-4 mb-10">I'm on this platforms!</p>
+  <p class="text-gray-400 my-6 max-w-prose">
+    If you're interested in getting my services or working together, feel free to get in touch with me. 
+  </p>
+  <Link path='#' text='Send me an email' />
+  <p class="text-gray-400 mt-1 mb-6">
+    mstvdev19@gmail.com
+  </p>
+  <Link path='#' text='Text me on Whatsapp' />
+  <p class="text-gray-400 mt-1 mb-5">
+    +51 939808920
+  </p>
+  <p class="text-gray-400 mb-10">
+    or you can find me on this platforms!
+  </p>
   <div class="flex flex-wrap pt-2 pb-5 text-white gap-4">
     <ContactCard title='Github'>
       <Github size={30} />

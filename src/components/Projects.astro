@@ -1,42 +1,28 @@
 ---
-import ProjectCard from "./ProjectCard.astro";
-import snapcify from '../assets/snapcify.webp';
-import socializeNow from '../assets/socialize-now.webp';
+import snapcify from "../assets/snapcify.webp";
+import socializeNow from "../assets/socialize-now.webp";
+import ProjectCard from "./cards/ProjectCard.astro";
+import Link from "./Link.astro";
 ---
 
-<section id="projects" class="py-20">
+<section id="projects" class="pt-20">
   <h2 class="text-white font-bold text-4xl pt-10">Projects</h2>
-  <p class="text-gray-400 text-md mt-4">Some of the projects I've build.</p>
-  <p class="text-white text-lg mb-10 py-5 font-medium">
-    <a href="#" class="flex items-center hover:underline pt-2">
-      Visit Github Profile
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        class="fill-blue-200"
-      >
-        <path
-          d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"
-        ></path>
-      </svg>
-    </a>
-  </p>
+  <p class="text-gray-400 mt-4">Some of the projects I've build.</p>
+  <Link path="#" text="Visit Github Profile" my />
   <div class="grid grid-cols-fluid gap-5">
-    <ProjectCard
-      title="Snapcify"
-      description="A web music player with non commercial purposes."
-      technologies={["HTML/CSS •", "React •", "Typescript"]}
-      repo='https://storied-croissant-932672.netlify.app/'
-      path={snapcify}
-    />
     <ProjectCard
       title="Socialize Now"
       description="Social platform for posting everything you want!"
       technologies={["Nodejs •", "Express •", "React •", "Material UI"]}
-      repo='https://merry-capybara-cd3821.netlify.app/'
+      repo="https://merry-capybara-cd3821.netlify.app/"
       path={socializeNow}
+    />
+    <ProjectCard
+      title="Snapcify"
+      description="A web music player with non commercial purposes."
+      technologies={["HTML/CSS •", "React •", "Typescript"]}
+      repo="https://storied-croissant-932672.netlify.app/"
+      path={snapcify}
     />
   </div>
 </section>
