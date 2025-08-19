@@ -1,24 +1,32 @@
 ---
-import Header from '../components/layout/Header/Header.jsx';
-import Particles from '../components/Particles.astro';
+import Header from "../components/layout/Header/Header.jsx";
+import Particles from "../components/Particles.astro";
 
-const { title } = Astro.props
+const { title } = Astro.props;
 ---
 
-<html lang='en'>
-	<head>
-		<meta charset='utf-8' />
-		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
-		<meta name='viewport' content='width=device-width' />
-		<meta name='generator' content={Astro.generator} />
-		<meta name="description" content="Steven Hernández Web Developer from Lima, Perú.">
-		<title>{title}</title>
-	</head>
-	<body class='bg-gradient-to-tl from-gray-900 to-black bg-no-repeat'>
-		<Header client:idle />
-    <main class='flex flex-col max-w-6xl mx-auto px-8 min-h-screen'>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link href="themes/prism-ghcolors.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta
+      name="description"
+      content="Martin Steven Hernández Web Developer from Lima, Perú."
+    />
+    <title>{title}</title>
+  </head>
+  <body class="relative bg-gradient-to-tl from-gray-900 to-black bg-no-repeat">
+    <div
+      class="absolute inset-0 pointer-events-none bg-[url('/asfalt-dark.png')] opacity-0"
+    >
+    </div>
+    <Header client:idle />
+    <main class="flex flex-col max-w-7xl mx-auto px-8 md:px-9 min-h-screen">
       <slot />
     </main>
-		<Particles />
-	</body>
+    <Particles />
+  </body>
 </html>

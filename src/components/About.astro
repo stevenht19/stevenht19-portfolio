@@ -1,103 +1,42 @@
 ---
-import { Image } from "@astrojs/image/components";
+
 ---
 
-<section id="about" class="pt-20">
-  <h2 class="text-white font-bold text-4xl pt-10 pb-2">About me</h2>
-  <p class="text-gray-400 mt-4 max-w-prose">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed placerat,
-    lectus id maximus tempor, elit nulla pharetra dolor, eu euismod massa erat
-    sed metus. Integer dolor dolor, finibus eu massa ut, dignissim ornare mi.
-  </p>
-  <p class="text-gray-400 mt-4 mb-10">
-    I specialize in Frontend development, Also have backend knowledge.
-  </p>
-  <div class="flex justify-between items-center pt-5">
-    <div class="bg-blue-500/10 p-3.5 rounded-full">
-      <Image
-        loading="lazy"
-        width={30}
-        height={30}
-        src={'https://cdn.worldvectorlogo.com/logos/html-1.svg'}
-        quality={0}
-        alt='HTML logo'
-      />
-    </div>
-    <div class="bg-blue-500/10 p-3.5 rounded-full">
-      <Image 
-        src={'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/240px-CSS3_logo.svg.png'}
-        width={30}
-        height={30}
-        quality={0}
-        alt='CSS logo'
-      />
-    </div>
-    <div class="bg-blue-500/10 p-3.5 rounded-full">
-      <Image
-        loading="lazy"
-        width={30}
-        height={30}
-        src={"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png"}
-        quality={0}
-        alt="Typescript Logo"
-      />
-    </div>
-    <div class="bg-blue-500/10 p-3.5 rounded-full">
-      <Image 
-        src={'https://astro.js.org/astro.png'}
-        width={30}
-        height={30}
-        quality={0}
-        alt="Astro Logo"
-      />
-    </div>
-    <div class="bg-blue-500/10 p-3.5 rounded-full">
-      <Image
-        loading="lazy"
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png"
-        width={30}
-        height={30}
-        quality={0}
-        alt="React Logo"
-      />
-    </div>
-    <div class="bg-blue-500/10 p-3.5 rounded-full">
-      <Image
-        loading="lazy"
-        src="https://seeklogo.com/images/N/nodejs-logo-FBE122E377-seeklogo.com.png"
-        width={30}
-        height={30}
-        quality={0}
-        alt="Nodejs Logo"
-      />
-    </div>
-    <div class="bg-blue-500/10 p-3.5 rounded-full">
-      <Image
-        loading="lazy"
-        src={"https://docs.nestjs.com/assets/logo-small.svg"}
-        width={30}
-        height={30}
-        quality={0}
-        alt="Nestjs Logo"
-      />
-    </div>
-    <div class="bg-blue-500/10 p-3.5 rounded-full">
-      <Image
-        src={"https://cdn.icon-icons.com/icons2/2415/PNG/512/mongodb_original_logo_icon_146424.png"}
-        width={30}
-        height={30}
-        quality={0}
-        alt="Mongodb Logo"
-      />
-    </div>
-    <div class="bg-blue-500/10 p-3.5 rounded-full">
-      <Image 
-        src={'https://www.freeiconspng.com/thumbs/sql-server-icon-png/sql-server-icon-png-29.png'}
-        width={30}
-        height={30}
-        quality={0}
-        alt="SQL Logo"
-      />
+<section id="about" class="grid lg:grid-cols-2 items-start py-16 lg:py-40 text-lg gap-14 lg:gap-24">
+  <div>
+    <h2 class="text-white font-bold text-4xl pb-2">About me</h2>
+    <p class="text-gray-400 mt-4 text-justify font-normal">
+      Hi, I'm Martin Steven. I've 2 years of experience
+      specializing in <span class="text-blue-200 font-medium"
+        >Full-Stack Development</span
+      >, delivering cross-platform web solutions.
+    </p>
+    <p class="text-gray-400 mt-4 text-justify font-normal">
+      I have worked on <span class="text-blue-200 font-medium"
+        >role-based systems</span
+      >, <span class="text-blue-200 font-medium">HR applications</span>, <span
+        class="text-blue-200 font-medium">real-time web apps</span
+      >, and <span class="text-blue-200 font-medium"
+        >real-time communication apps with Twilio API</span
+      >, delivering practical solutions.
+    </p>
+    <p class="text-gray-400 mt-4 text-justify font-normal">
+      Outside of work, I enjoy spending time with animals, playing the bass, and
+      cycling—activities.
+    </p>
+  </div>
+  <div>
+    <div class="bg-gray-900 text-[#c0caf5] rounded-xl p-1 md:p-5 overflow-x-auto font-mono text-lg lg:text-xl shadow-md">
+      <pre class="relative top-1">
+      <code>
+  &lt;<span class="text-[#74bde8]">Profile</span>
+    <span class="text-[#e0af68]">name</span>=<span class="text-[#9ece6a]">"Martin Steven Hernández"</span>
+    <span class="text-[#e0af68]">role</span>=<span class="text-[#9ece6a]">"Full-Stack Developer"</span>
+    <span class="text-[#e0af68]">experience</span>=<span class="text-[#9ece6a]">"+2 years"</span>
+    <span class="text-[#e0af68]">hobbies</span>=<span class="text-[#9ece6a]">"🚲🐶🎸"</span>
+  /&gt;
+      </code>
+    </pre>
     </div>
   </div>
 </section>

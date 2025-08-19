@@ -13,7 +13,7 @@ export default function Header() {
       <nav class='relative flex max-w-6xl w-full mx-auto justify-end items-center py-4'>
         <button 
           id='menu' 
-          class='mr-8 p-2 z-30 md:hidden'
+          class='mr-8 relative left-3 p-2 z-30 md:hidden'
           aria-label='menu' 
           onClick={onToggle}
         >
