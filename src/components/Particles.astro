@@ -1,6 +1,6 @@
 ---
-import type { ISourceOptions } from "tsparticles-engine";
-import AstroParticles from 'astro-particles'
+import type { ISourceOptions } from "@tsparticles/engine";
+import Particles from "@tsparticles/astro";
 
 const options: ISourceOptions = {
 	particles: {
@@ -8,7 +8,6 @@ const options: ISourceOptions = {
       value: 18,
       density: {
         enable: true,
-        value_area: 1000
       }
     },
     color: {
@@ -30,26 +29,22 @@ const options: ISourceOptions = {
       }
     },
     opacity: {
-      value: 0.47300655795532925,
-      random: true,
-      anim: {
+      value: { min: 0, max: 0.473 },
+      animation: {
         enable: true,
         speed: 1,
-        opacity_min: 0,
         sync: false
       }
     },
     size: {
-      value: 3,
-      random: true,
-      anim: {
+      value: { min: 0.3, max: 3 },
+      animation: {
         enable: false,
         speed: 4,
-        size_min: 0.3,
         sync: false
       }
     },
-    line_linked: {
+    links: {
       enable: false,
       distance: 150,
       color: "#ffffff",
@@ -58,28 +53,25 @@ const options: ISourceOptions = {
     },
     move: {
       enable: true,
-      speed: .5,
+      speed: 0.5,
       direction: "none",
       random: true,
       straight: false,
-      out_mode: "out",
-      bounce: false,
-      attract: {
-        enable: false,
-        rotateX: 600,
-        rotateY: 600
+      outModes: {
+        default: "out"
       }
     }
 	},
 };
 ---
 <script>
-	import { tsParticles } from 'tsparticles-engine'
-	import { loadFull } from 'tsparticles'
-  
-	(async () => {
-		loadFull(tsParticles)
-	})()
+  import { initParticlesEngine } from "@tsparticles/astro";
+  import { loadSlim } from "@tsparticles/slim";
+
+  await initParticlesEngine(async (engine) => {
+    await loadSlim(engine);
+  });
 </script>
-<AstroParticles id='ts-particles' options={options} />
+<Particles id="ts-particles" options={options} />
+
 

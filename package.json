@@ -10,15 +10,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/image": "^0.15.1",
-    "@astrojs/preact": "^2.0.3",
-    "@astrojs/tailwind": "^3.0.1",
-    "astro": "^2.0.17",
-    "astro-particles": "2.9.3",
-    "preact": "10.13.0",
-    "sharp": "^0.31.3",
-    "tailwindcss": "3.2.7",
-    "tsparticles": "2.9.3",
-    "tsparticles-engine": "2.9.3"
+    "@astrojs/preact": "^6.0.5",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tsparticles/astro": "^4.4.0",
+    "@tsparticles/engine": "^4.4.0",
+    "@tsparticles/slim": "^4.4.0",
+    "astro": "^7.3.1",
+    "preact": "^10.29.8",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^3.4.19"
   }
 }

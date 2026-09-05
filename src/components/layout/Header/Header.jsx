@@ -11,10 +11,10 @@ export default function Header() {
   return (
     <header class='fixed z-10 top-0 w-full md:backdrop-blur-lg'>
       <nav class='relative flex max-w-6xl w-full mx-auto justify-end items-center py-4'>
-        <button 
-          id='menu' 
+        <button
+          id='menu'
           class='mr-8 relative left-3 p-2 z-30 md:hidden'
-          aria-label='menu' 
+          aria-label='menu'
           onClick={onToggle}
         >
           {
@@ -44,24 +44,24 @@ export default function Header() {
         </button>
         <div class={`${!open ? 'hidden' : ''} z-20 backdrop-blur-3xl absolute top-0 w-full h-screen md:static md:backdrop-blur-none md:w-auto md:h-auto md:block`}>
           <ul class='flex flex-col font-medium text-gray-300 px-8 pt-24 gap-8 md:flex-row md:gap-12 md:pt-0'>
-            <NavItem 
-              text='Home' 
-              onClick={onClose} 
+            <NavItem
+              text='Home'
+              onClick={onClose}
             />
-            <NavItem 
-              text='Projects' 
-              path='#projects' 
-              onClick={onClose} 
+            <NavItem
+              text='Projects'
+              path='#projects'
+              onClick={onClose}
             />
-            <NavItem 
-              text='About' 
-              path='#about' 
-              onClick={onClose} 
+            <NavItem
+              text='About'
+              path='#about'
+              onClick={onClose}
             />
-            <NavItem 
-              text='Contact' 
-              path='#contact' 
-              onClick={onClose} 
+            <NavItem
+              text='Contact'
+              path='#contact'
+              onClick={onClose}
             />
           </ul>
         </div>

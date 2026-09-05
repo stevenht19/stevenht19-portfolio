@@ -1,5 +1,5 @@
 ---
-import { Image } from "@astrojs/image/components";
+import { Image } from "astro:assets";
 import Github from "../icons/Github.astro";
 
 const { title, description, technologies, path, repo, preview } = Astro.props;
@@ -15,8 +15,7 @@ const { title, description, technologies, path, repo, preview } = Astro.props;
     height={400}
     quality={40}
     loading={"lazy"}
-    class="pb-5"
-    fit="cover"
+    class="pb-5 object-cover"
   />
   <div class="flex flex-1 flex-col justify-start">
     <h2 class="text-white text-lg font-bold my-1">{title}</h2>
@@ -32,7 +31,7 @@ const { title, description, technologies, path, repo, preview } = Astro.props;
   <div class="flex justify-end gap-5">
     {
       preview && (
-        <a title={`Go to ${title} Preview`} href={preview}  target="_blank">
+        <a title={`Go to ${title} Preview`} href={preview} target="_blank">
           <svg
             viewBox="0 0 24 24"
             viewBox="0 0 24 24"
