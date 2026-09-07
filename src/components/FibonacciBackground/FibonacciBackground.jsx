@@ -198,7 +198,7 @@ const FibonacciBackground = ({ className = '', style = undefined }) => {
       const isStacked = width < 1024;
       const isMobile = width < 640;
       const originX = isStacked ? width * 0.5 : width * 0.62;
-      const originY = isStacked ? (isMobile ? height * 0.54 : height * 0.48) : height * 0.52;
+      const originY = isStacked ? (isMobile ? height * 0.65 : height * 0.48) : height * 0.52;
 
       const breathe = Math.sin(time * 0.5) * 0.5 + 0.5;
       const slowPulse = Math.sin(time * 0.3) * 0.5 + 0.5;

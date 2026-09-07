@@ -14,12 +14,7 @@ const {
 } = Astro.props;
 ---
 
-<Button
-  href={href}
-  variant="primary"
-  size="sm"
-  class={className}
->
+<Button href={href} variant="primary" size="sm" class={className}>
   <span>{label}</span>
   <span
     class="text-xs text-slate-800 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
