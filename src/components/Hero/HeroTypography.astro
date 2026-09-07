@@ -1,0 +1,171 @@
+---
+interface Props {
+  greeting?: string;
+  name?: string;
+  class?: string;
+}
+
+const {
+  greeting = "Hola, soy",
+  name = "Martín Hernández",
+  class: className = "",
+} = Astro.props;
+
+const parts = name.trim().split(/\s+/);
+const firstName = parts.length > 1 ? parts.slice(0, -1).join(" ") : parts[0];
+const lastName = parts.length > 1 ? parts[parts.length - 1] : "";
+---
+
+<div class:list={["space-y-3 sm:space-y-5", className]}>
+  <div class="tracking-tight leading-[1.04]">
+    <span
+      class="text-[3rem] md:text-[clamp(2.65rem,4.45vw+0.85rem,4.8rem)] font-display font-bold mb-1 sm:mb-2"
+      aria-label={greeting}
+    >
+      <span class="inline-block" aria-hidden="true">
+        {
+          greeting
+            .split("")
+            .map((char) => (
+              <span class="hero-greeting-char inline-block will-change-transform opacity-0">
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))
+        }
+      </span>
+    </span>
+    <div class="relative inline-block max-w-4xl w-full">
+      <h1
+        class="text-[3rem] md:text-[clamp(2.65rem,4.45vw+0.85rem,4.8rem)] font-display font-extrabold text-white leading-none tracking-tight"
+        aria-label={name}
+      >
+        <span class="inline-block whitespace-nowrap" aria-hidden="true">
+          {
+            firstName
+              .split("")
+              .map((char) => (
+                <span class="hero-name-char inline-block will-change-transform opacity-0">
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))
+          }
+        </span>{" "}
+        <span
+          class="relative inline-block whitespace-nowrap"
+          aria-hidden="true"
+        >
+          {
+            lastName
+              .split("")
+              .map((char) => (
+                <span class="hero-name-char inline-block will-change-transform opacity-0">
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))
+          }
+          <span
+            class="hero-name-underline absolute left-0 -bottom-1 sm:-bottom-1.5 lg:-bottom-2 w-full h-1 lg:h-2 bg-primary origin-left pointer-events-none opacity-0 scale-x-0"
+            aria-hidden="true"></span>
+        </span>
+      </h1>
+    </div>
+  </div>
+  <p
+    class="text-zinc-300/90 max-w-lg mt-7.5 mb-10.5 leading-relaxed font-normal"
+  >
+    <span class="text-primary font-medium">Desarrollador Fullstack</span> que
+    transforma ideas complejas en productos digitales rápidos, intuitivos y escalables.
+  </p>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  const greetingChars = document.querySelectorAll(".hero-greeting-char");
+  const nameChars = document.querySelectorAll(".hero-name-char");
+  const underline = document.querySelector(".hero-name-underline");
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (!prefersReducedMotion) {
+    const tl = gsap.timeline({ delay: 0.1 });
+
+    if (greetingChars.length > 0) {
+      tl.fromTo(
+        greetingChars,
+        {
+          opacity: 0,
+          y: 20,
+          filter: "blur(4px)",
+        },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.5,
+          stagger: 0.03,
+          ease: "power3.out",
+        },
+      );
+    }
+
+    if (nameChars.length > 0) {
+      tl.fromTo(
+        nameChars,
+        {
+          opacity: 0,
+          y: 28,
+          filter: "blur(6px)",
+        },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.6,
+          stagger: 0.035,
+          ease: "power3.out",
+        },
+        greetingChars.length > 0 ? "-=0.3" : 0,
+      );
+    }
+
+    if (underline) {
+      tl.fromTo(
+        underline,
+        {
+          scaleX: 0,
+          opacity: 0,
+        },
+        {
+          scaleX: 1,
+          opacity: 1,
+          duration: 0.45,
+          ease: "power3.out",
+        },
+        "-=0.2",
+      );
+    }
+
+    // Microinteracción reactiva al pasar el cursor sobre cada letra
+    [...greetingChars, ...nameChars].forEach((char) => {
+      char.addEventListener("mouseenter", () => {
+        gsap.to(char, {
+          y: -4,
+          duration: 0.18,
+          ease: "power2.out",
+          yoyo: true,
+          repeat: 1,
+        });
+      });
+    });
+  } else {
+    gsap.set([...greetingChars, ...nameChars, underline].filter(Boolean), {
+      opacity: 1,
+      y: 0,
+      scaleX: 1,
+      filter: "blur(0px)",
+    });
+  }
+</script>

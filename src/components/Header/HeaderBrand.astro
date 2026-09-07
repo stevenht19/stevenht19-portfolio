@@ -1,0 +1,23 @@
+---
+import { Image } from "astro:assets";
+import logoImg from "../../assets/logo.png";
+
+interface Props {
+  name: string;
+  href?: string;
+  class?: string;
+}
+
+const { name, href = "/", class: className = "" } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    "flex items-center -translate-x-2.5 group focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-300/40",
+    className,
+  ]}
+  aria-label={`${name} - Inicio`}
+>
+  <Image src={logoImg} alt="Logo" width={45} height={45} loading="eager" />
+</a>

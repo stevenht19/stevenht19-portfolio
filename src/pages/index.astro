@@ -1,16 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Profile from "../components/Profile.astro";
-import Projects from "../components/Projects.astro";
-import Contact from "../components/Contact.astro";
-import About from "../components/About.astro";
-import WorkExperience from "../components/WorkExperience.astro";
+import Header from "../components/Header/index.astro";
+import Hero from "../components/Hero/index.astro";
 ---
 
-<Layout title="Martin Hernández">
-  <Profile />
-  <Projects />
-  <About />
-  <WorkExperience />
-  <Contact />
+<Layout>
+  <Header />
+  <Hero />
 </Layout>

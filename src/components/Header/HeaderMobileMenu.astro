@@ -1,0 +1,132 @@
+---
+import type { NavLink, SocialLink } from "./types";
+import { DEFAULT_NAV_LINKS, DEFAULT_SOCIAL_LINKS } from "./headerData";
+
+interface Props {
+  id?: string;
+  links?: NavLink[];
+  socials?: SocialLink[];
+  class?: string;
+}
+
+const {
+  id = "mobile-menu",
+  links = DEFAULT_NAV_LINKS,
+  socials = DEFAULT_SOCIAL_LINKS,
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  id={id}
+  class:list={[
+    "mobile-menu fixed inset-0 top-17 sm:top-20 z-40 bg-zinc-950/60 backdrop-blur-3xl px-6 sm:px-10 pb-8 pt-4 flex flex-col justify-between overflow-y-auto md:hidden pointer-events-none",
+    className,
+  ]}
+  aria-hidden="true"
+>
+  <nav
+    class="flex flex-col justify-center my-auto py-6 divide-y divide-zinc-900/90 max-w-sm w-full mx-auto"
+    aria-label="Navegación móvil"
+  >
+    {
+      links.map((link, index) => (
+        <a
+          href={link.href}
+          class="mobile-nav-link group flex items-center justify-between py-4 sm:py-5 text-2xl sm:text-3xl font-display font-medium text-zinc-300 hover:text-white transition-colors"
+          style={`--item-index: ${index};`}
+        >
+          <span class="tracking-tight">{link.label}</span>
+          <span
+            class="text-zinc-600 group-hover:text-zinc-200 text-sm font-mono transition-transform duration-200 group-hover:translate-x-1"
+            aria-hidden="true"
+          >
+            →
+          </span>
+        </a>
+      ))
+    }
+  </nav>
+  <div
+    class="mobile-footer pt-6 border-t border-zinc-900/90 max-w-sm w-full mx-auto flex flex-col gap-3 text-xs text-zinc-500"
+  >
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        {
+          socials.map((item) => (
+            <a
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-zinc-300 transition-colors flex items-center gap-1.5 py-1"
+            >
+              <span>{item.name}</span>
+              <span class="text-[10px] text-zinc-600" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mobile-menu {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mobile-nav-link {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      color 0.2s ease;
+  }
+
+  .mobile-menu.is-open .mobile-nav-link {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: calc(0.055s * var(--item-index) + 0.08s);
+  }
+
+  .mobile-footer {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mobile-menu.is-open .mobile-footer {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.28s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu,
+    .mobile-nav-link,
+    .mobile-footer {
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+      transform: none !important;
+    }
+  }
+</style>

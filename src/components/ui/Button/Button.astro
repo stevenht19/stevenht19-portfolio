@@ -1,0 +1,63 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"button"> {
+  href?: string;
+  variant?: "primary" | "secondary" | "outline" | "ghost";
+  size?: "sm" | "md" | "lg";
+  class?: string;
+  target?: string;
+  rel?: string;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  class: className = "",
+  target,
+  rel,
+  ...rest
+} = Astro.props;
+
+// Base styles for all buttons using pure Tailwind
+const baseStyles =
+  "inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary";
+
+// Size variants
+const sizeStyles: Record<string, string> = {
+  sm: "px-3 sm:px-4 py-2 text-sm gap-1.5",
+  md: "px-4 py-2.5 sm:px-6 sm:py-3 text-sm font-medium gap-2",
+  lg: "px-5 py-3 sm:px-7 sm:py-3.5 text-base gap-2.5",
+};
+
+// Pure Tailwind color variants
+const variantStyles: Record<string, string> = {
+  primary:
+    "bg-primary hover:bg-blue-100 text-slate-900 font-semibold shadow-[0_2px_10px_rgba(191,219,254,0.18)] hover:shadow-[0_4px_14px_rgba(191,219,254,0.28)] hover:-translate-y-0.5 active:translate-y-0",
+  secondary:
+    "bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700/80 hover:border-zinc-600 transition-colors duration-300",
+  outline:
+    "bg-transparent hover:bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700",
+  ghost: "bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white",
+};
+
+const classes = [
+  baseStyles,
+  sizeStyles[size] || sizeStyles.md,
+  variantStyles[variant] || variantStyles.primary,
+  className,
+];
+
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  href={href}
+  class:list={classes}
+  target={target}
+  rel={target === "_blank" ? rel || "noopener noreferrer" : rel}
+  {...rest}
+>
+  <slot />
+</Tag>

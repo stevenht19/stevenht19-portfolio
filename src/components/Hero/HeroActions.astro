@@ -1,0 +1,37 @@
+---
+import Button from "../ui/Button/Button.astro";
+
+interface Props {
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  class?: string;
+}
+
+const {
+  primaryHref = "#contacto",
+  primaryLabel = "Hablemos",
+  secondaryHref = "#proyectos",
+  secondaryLabel = "Ver proyectos",
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "flex flex-wrap items-center gap-3 sm:gap-4 text-sm font-medium",
+    className,
+  ]}
+>
+  <Button href={primaryHref} variant="primary" size="md">
+    <span>{primaryLabel}</span>
+    <span class="text-xs">→</span>
+  </Button>
+
+  <Button href={secondaryHref} variant="secondary" size="md">
+    <span>{secondaryLabel}</span>
+    <span class="text-xs text-zinc-500">↓</span>
+  </Button>
+  <slot />
+</div>

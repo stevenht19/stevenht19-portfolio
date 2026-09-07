@@ -1,0 +1,28 @@
+---
+import type { NavLink } from "./types";
+import { DEFAULT_NAV_LINKS } from "./headerData";
+
+interface Props {
+  links?: NavLink[];
+  class?: string;
+}
+
+const { links = DEFAULT_NAV_LINKS, class: className = "" } = Astro.props;
+---
+
+<nav
+  class:list={["hidden md:flex items-center gap-7 lg:gap-9", className]}
+  aria-label="Navegación principal"
+>
+  {
+    links.map((link) => (
+      <a
+        href={link.href}
+        class="header-nav-link text-sm font-medium text-zinc-400 hover:text-white transition-colors relative py-1 group"
+      >
+        <span>{link.label}</span>
+        <span class="bg-primary absolute bottom-0 left-0 w-0 h-[1.5px] transition-all duration-200 group-hover:w-full motion-reduce:transition-none" />
+      </a>
+    ))
+  }
+</nav>
