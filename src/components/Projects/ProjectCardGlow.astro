@@ -1,0 +1,23 @@
+---
+interface Props {
+  spot: string;
+  class?: string;
+}
+
+const { spot, class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "project-card-glow pointer-events-none absolute inset-0 z-0 opacity-55",
+    className,
+  ]}
+  style={`background-image: radial-gradient(48% 55% at 88% -8%, rgb(${spot} / 0.11), transparent 70%);`}
+  aria-hidden="true"
+>
+</div>
+
+<span
+  class="project-card-spot pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-500 group-hover/proj:opacity-100"
+  style={`background-image: radial-gradient(560px circle at var(--mx, 50%) var(--my, 50%), rgb(${spot} / 0.13), transparent 65%);`}
+  aria-hidden="true"></span>

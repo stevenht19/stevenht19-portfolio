@@ -1,24 +1,29 @@
 ---
 import "@fontsource-variable/plus-jakarta-sans";
-import "../styles/global.css";
+import "@styles/global.css";
+import { SITE_INFO } from "@data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${SITE_INFO.name} | ${SITE_INFO.role}`,
+  description = `${SITE_INFO.name} - ${SITE_INFO.role} en ${SITE_INFO.location}. ${SITE_INFO.bio}`,
+} = Astro.props;
 ---
 
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link href="themes/prism-ghcolors.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <meta
-      name="description"
-      content="Martin Hernández Desarrollador Fullstack en Lima, Perú."
-    />
-    <title>Martín Hernández | Desarrollador Fullstack</title>
+    <meta name="description" content={description} />
+    <title>{title}</title>
   </head>
-  <body
-    class="bg-zinc-950 text-zinc-100 antialiased selection:bg-sky-500/25 selection:text-sky-200 min-h-screen overflow-x-hidden"
-  >
+  <body class="bg-zinc-950 text-zinc-100 antialiased min-h-screen overflow-x-hidden">
     <slot />
   </body>
 </html>

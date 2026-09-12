@@ -1,13 +1,13 @@
 ---
-import type { NavLink } from "./types";
-import { DEFAULT_NAV_LINKS } from "./headerData";
+import type { NavLink } from "@types";
+import { NAV_LINKS } from "@data/navigation";
 
 interface Props {
   links?: NavLink[];
   class?: string;
 }
 
-const { links = DEFAULT_NAV_LINKS, class: className = "" } = Astro.props;
+const { links = NAV_LINKS, class: className = "" } = Astro.props;
 ---
 
 <nav
@@ -21,7 +21,6 @@ const { links = DEFAULT_NAV_LINKS, class: className = "" } = Astro.props;
         class="header-nav-link text-sm font-medium text-zinc-400 hover:text-white transition-colors relative py-1 group"
       >
         <span>{link.label}</span>
-        <span class="bg-primary absolute bottom-0 left-0 w-0 h-[1.5px] transition-all duration-200 group-hover:w-full motion-reduce:transition-none" />
       </a>
     ))
   }

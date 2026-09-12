@@ -1,23 +1,24 @@
 ---
 import { Image } from "astro:assets";
-import logoImg from "../../assets/logo.png";
+import logoImg from "@assets/logo.png";
+import { SITE_INFO } from "@data/site";
 
 interface Props {
-  name: string;
+  name?: string;
   href?: string;
   class?: string;
 }
 
-const { name, href = "/", class: className = "" } = Astro.props;
+const { name = SITE_INFO.name, href = "/", class: className = "" } = Astro.props;
 ---
 
 <a
   href={href}
   class:list={[
-    "flex items-center -translate-x-2.5 group focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-300/40",
+    "header-brand-link flex items-center -translate-x-2.5 group focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-300/40 transition-transform duration-300 ease-out",
     className,
   ]}
   aria-label={`${name} - Inicio`}
 >
-  <Image src={logoImg} alt="Logo" width={45} height={45} loading="eager" />
+  <Image src={logoImg} alt="Logo" width={44} height={44} class="h-9 sm:h-10 w-auto" loading="eager" />
 </a>

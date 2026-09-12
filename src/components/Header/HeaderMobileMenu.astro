@@ -1,6 +1,7 @@
 ---
-import type { NavLink, SocialLink } from "./types";
-import { DEFAULT_NAV_LINKS, DEFAULT_SOCIAL_LINKS } from "./headerData";
+import type { NavLink, SocialLink } from "@types";
+import { NAV_LINKS } from "@data/navigation";
+import { DEFAULT_SOCIAL_LINKS } from "@data/site";
 
 interface Props {
   id?: string;
@@ -11,7 +12,7 @@ interface Props {
 
 const {
   id = "mobile-menu",
-  links = DEFAULT_NAV_LINKS,
+  links = NAV_LINKS,
   socials = DEFAULT_SOCIAL_LINKS,
   class: className = "",
 } = Astro.props;

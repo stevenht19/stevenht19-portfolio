@@ -1,34 +1,187 @@
 ---
 import { Image } from "astro:assets";
-import mePhoto from "../../assets/me2.png";
+import mePhoto from "@assets/me2.png";
+import { SITE_INFO } from "@data/site";
 
 interface Props {
   image?: ImageMetadata;
   alt?: string;
-  class?: string;
 }
 
-const {
-  image = mePhoto,
-  alt = "Martín Hernández - Desarrollador Fullstack",
-  class: className = "",
-} = Astro.props;
+const { image = mePhoto, alt = `${SITE_INFO.name} - ${SITE_INFO.role}` } =
+  Astro.props;
 ---
 
 <div
-  class:list={[
-    "relative z-10 flex items-end justify-center w-full lg:w-auto h-full max-h-[46vh] sm:max-h-[50vh] lg:max-h-[calc(100dvh-7rem)] select-none group [mask-image:linear-gradient(to_bottom,black_82%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_82%,transparent_100%)]",
-    className,
-  ]}
+  class="hero-feature relative w-full max-w-76 sm:max-w-[24rem] md:max-w-84 mx-auto md:mx-0 md:ml-auto lg:max-w-86 xl:max-w-114 2xl:max-w-152 3xl:max-w-3xl -translate-y-5 xl:translate-y-0"
 >
-  <div
-    class="relative w-auto h-full max-w-57.5 xs:max-w-[260px] sm:max-w-[320px] md:max-w-[270px] lg:max-w-[430px] xl:max-w-[490px] 2xl:max-w-[630px] flex items-end justify-center"
-  >
-    <Image
-      src={image}
-      alt={alt}
-      loading="eager"
-      class="relative scale-135 z-10 w-auto h-full max-w-full pointer-events-none object-cover object-center drop-shadow-[0_16px_32px_rgba(0,0,0,0.85)] transition-transform lg:scale-100 duration-500 ease-out group-hover:scale-[1.1]"
-    />
+  <div class="hero-feature-inner relative">
+    <div
+      class="hero-feature-glow pointer-events-none absolute -inset-10 2xl:-inset-16 3xl:-inset-24 rounded-full opacity-75 blur-3xl 3xl:blur-[110px]"
+      style="background: radial-gradient(closest-side, rgba(147, 51, 234, 0.38), rgba(59, 130, 246, 0.24) 50%, rgba(212, 255, 0, 0.07) 78%, transparent 95%);"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div
+      class="hero-feature-card relative overflow-hidden rounded-[2.5rem] 2xl:rounded-[3rem] 3xl:rounded-[3.5rem] will-change-transform"
+    >
+      <Image
+        src={image}
+        alt={alt}
+        width={524}
+        height={765}
+        loading="eager"
+        decoding="async"
+        quality={95}
+        class="hero-feature-img pointer-events-none block object-cover"
+      />
+      <div
+        class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[28%] bg-linear-to-t from-zinc-950/60 via-zinc-950/5 to-transparent"
+        aria-hidden="true"
+      >
+      </div>
+    </div>
+
+    <p
+      class="hero-feature-caption relative z-10 mt-5 flex items-center justify-center gap-2 text-sm text-zinc-400"
+    >
+      <a
+        href={SITE_INFO.socials.github.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-medium text-zinc-300 transition-colors duration-300 hover:text-primary"
+        >@stevenht19</a
+      >
+      <span class="text-zinc-600" aria-hidden="true">·</span>
+      <span>Full-Stack Dev</span>
+    </p>
   </div>
 </div>
+
+<style>
+  .hero-feature-card {
+    will-change: transform;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  const finePointer = window.matchMedia("(hover: hover)").matches;
+
+  const feature = document.querySelector(".hero-feature");
+  const inner = document.querySelector(".hero-feature-inner");
+  const card = document.querySelector(".hero-feature-card");
+  const caption = document.querySelector(".hero-feature-caption");
+  const glow = document.querySelector(".hero-feature-glow");
+
+  if (!prefersReducedMotion) {
+    if (inner) {
+      gsap.to(inner, {
+        y: -12,
+        duration: 3.2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: 1.2,
+      });
+    }
+
+    if (card) {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 52, scale: 0.95, rotation: 1.5 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotation: 0,
+          duration: 1.05,
+          delay: 0.35,
+          ease: "power3.out",
+        },
+      );
+    }
+
+    if (caption) {
+      gsap.fromTo(
+        caption,
+        { opacity: 0, y: 18 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          delay: 0.85,
+          ease: "power3.out",
+        },
+      );
+    }
+
+    if (feature && card && finePointer) {
+      const rxTo = gsap.quickTo(card, "rotationX", {
+        duration: 0.5,
+        ease: "power2.out",
+      });
+      const ryTo = gsap.quickTo(card, "rotationY", {
+        duration: 0.5,
+        ease: "power2.out",
+      });
+      gsap.set(card, { transformPerspective: 1000 });
+
+      feature.addEventListener(
+        "pointermove",
+        (e: PointerEvent) => {
+          const r = feature.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width;
+          const py = (e.clientY - r.top) / r.height;
+          rxTo((py - 0.5) * -4.5);
+          ryTo((px - 0.5) * 4.5);
+        },
+        { passive: true },
+      );
+
+      feature.addEventListener(
+        "pointerleave",
+        () => {
+          rxTo(0);
+          ryTo(0);
+        },
+        { passive: true },
+      );
+    }
+
+    if (feature) {
+      gsap.to(feature, {
+        yPercent: -10,
+        opacity: 0.45,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".hero-section",
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+
+    if (glow) {
+      gsap.to(glow, {
+        scale: 1.12,
+        opacity: 0.9,
+        duration: 4,
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut",
+      });
+    }
+  } else {
+    gsap.set([card, caption].filter(Boolean), { opacity: 1 });
+  }
+</script>

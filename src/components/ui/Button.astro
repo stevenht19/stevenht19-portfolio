@@ -20,23 +20,20 @@ const {
   ...rest
 } = Astro.props;
 
-// Base styles for all buttons using pure Tailwind
 const baseStyles =
-  "inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary";
+  "inline-flex items-center px-4 py-2.5 justify-center font-medium rounded-full transition-colors duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary";
 
-// Size variants
 const sizeStyles: Record<string, string> = {
   sm: "px-3 sm:px-4 py-2 text-sm gap-1.5",
   md: "px-3 py-2.5 sm:px-3.5 sm:py-2.5 text-sm font-medium gap-2",
   lg: "px-5 py-2.5 sm:px-7 sm:py-3.5 text-base gap-2.5",
 };
 
-// Pure Tailwind color variants
 const variantStyles: Record<string, string> = {
   primary:
-    "bg-primary hover:bg-blue-100 text-slate-900 font-semibold shadow-[0_2px_10px_rgba(191,219,254,0.18)] hover:shadow-[0_4px_14px_rgba(191,219,254,0.28)] hover:-translate-y-0.5 active:translate-y-0",
+    "bg-primary hover:bg-[#e4ff4d] text-zinc-950 font-bold shadow-[0_0_28px_rgba(212,255,0,0.3)] hover:shadow-[0_0_42px_rgba(212,255,0,0.55)] hover:-translate-y-0.5 active:translate-y-0",
   secondary:
-    "bg-zinc-800/70 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700/80 hover:border-zinc-600 transition-colors duration-300",
+    "bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700/80 hover:border-zinc-600 transition-colors duration-300",
   outline:
     "bg-transparent hover:bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700",
   ghost: "bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white",

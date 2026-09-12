@@ -1,6 +1,5 @@
 ---
-import FibonacciBackground from "../FibonacciBackground";
-import DotGrid from "../DotGrid";
+import HeroDotGrid from "./HeroDotGrid.astro";
 
 interface Props {
   class?: string;
@@ -10,21 +9,12 @@ const { class: className = "" } = Astro.props;
 ---
 
 <div class:list={["absolute inset-0 z-0 overflow-hidden", className]}>
-  <FibonacciBackground client:only="preact" />
+  <div
+    class="pointer-events-none absolute inset-0 z-0"
+    style="background: radial-gradient(ellipse 70% 55% at 78% 25%, rgba(139, 92, 246, 0.22), transparent 65%), radial-gradient(ellipse 60% 50% at 18% 75%, rgba(37, 99, 235, 0.18), transparent 60%), radial-gradient(circle 35% at 50% 45%, rgba(212, 255, 0, 0.035), transparent 60%);"
+    aria-hidden="true"
+  ></div>
   <div class="absolute inset-0 z-1">
-    <DotGrid
-      client:only="preact"
-      gap={24}
-      dotSize={2.5}
-      baseColor="#232426"
-      activeColor="#bfdbfe"
-      proximity={180}
-      speedTrigger={80}
-      shockRadius={220}
-      shockStrength={4}
-      maxSpeed={4000}
-      resistance={800}
-      returnDuration={1.8}
-    />
+    <HeroDotGrid />
   </div>
 </div>

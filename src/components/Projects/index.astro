@@ -1,0 +1,334 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import ProjectsParticles from "./ProjectsParticles.astro";
+import Icon from "@components/ui/Icon.astro";
+import { PROJECTS_DATA } from "@data/projects";
+import { SITE_INFO } from "@data/site";
+---
+
+<section
+  id="proyectos"
+  class="projects-section relative overflow-hidden border-y border-white/8 bg-zinc-950 py-24 sm:py-28 lg:py-36"
+  aria-label="Proyectos destacados"
+>
+  <ProjectsParticles />
+
+  <div
+    class="projects-glow-1 pointer-events-none absolute -left-40 top-1/4 h-130 w-130 rounded-full bg-purple-600/10 blur-[130px]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="projects-glow-2 pointer-events-none absolute -right-40 bottom-1/4 h-130 w-130 rounded-full bg-blue-600/10 blur-[130px]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="relative z-10 mx-auto max-w-7xl px-6 sm:px-9 2xl:max-w-368 2xl:px-12 3xl:max-w-[114rem] 3xl:px-16"
+  >
+    <header
+      class="mb-16 grid gap-10 sm:mb-20 lg:grid-cols-12 lg:items-end lg:gap-14"
+    >
+      <div class="lg:col-span-7">
+        <span
+          class="projects-eyebrow mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/4 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-300 opacity-0"
+        >
+          <span class="relative flex h-1.5 w-1.5" aria-hidden="true">
+            <span
+              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60"
+            ></span>
+            <span
+              class="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary"
+            ></span>
+          </span>
+          Selección de trabajo · {
+            String(PROJECTS_DATA.length)?.padStart(2, "0")
+          }
+        </span>
+
+        <h2
+          class="projects-heading font-display font-extrabold leading-[0.92] tracking-tight text-white"
+        >
+          <span class="block text-[clamp(2.65rem,5vw+1rem,5.25rem)] opacity-0"
+            >Proyectos</span
+          >
+          <span
+            class="projects-heading-outline block text-[clamp(2.65rem,5vw+1rem,5.25rem)] text-transparent [-webkit-text-stroke:1.5px_rgba(212,255,0,0.60)] opacity-0"
+            >destacados</span
+          >
+        </h2>
+      </div>
+
+      <div class="lg:col-span-5">
+        <p
+          class="projects-desc mb-7 max-w-lg leading-relaxed text-zinc-400 opacity-0 lg:ml-auto"
+        >
+          Productos reales en producción: arquitectura, APIs, interfaces y
+          despliegue. Cada proyecto resuelve un problema con foco en rendimiento
+          y detalle.
+        </p>
+        <div class="projects-cta-wrap opacity-0 lg:text-right">
+          <a
+            href={SITE_INFO.socials.github.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-magnetic
+            class="group/ghost inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-transparent px-5 py-3 text-sm font-medium text-zinc-400 transition-all duration-300 hover:border-white/25 hover:bg-white/4 hover:text-white will-change-transform"
+          >
+            <span>Ver todo en GitHub</span>
+            <Icon
+              name="external"
+              class="w-3.5 h-3.5 transition-transform duration-300 group-hover/ghost:-translate-y-0.5 group-hover/ghost:translate-x-0.5"
+            />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div class="projects-grid grid gap-5 lg:grid-cols-2 lg:gap-6">
+      {PROJECTS_DATA?.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </div>
+
+  <div
+    class="absolute bottom-0 inset-x-0 h-px bg-white/6 z-20"
+    aria-hidden="true"
+  >
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initProjectsAnimations() {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const eyebrow = document.querySelector(".projects-eyebrow");
+    const heading = document.querySelectorAll(".projects-heading span");
+    const desc = document.querySelector(".projects-desc");
+    const ctaWrap = document.querySelector(".projects-cta-wrap");
+    const cards = gsap.utils.toArray<HTMLElement>(".project-card");
+    const glow1 = document.querySelector(".projects-glow-1");
+    const glow2 = document.querySelector(".projects-glow-2");
+
+    if (!prefersReducedMotion) {
+      const revealTargets = [eyebrow, desc, ctaWrap].filter(
+        Boolean,
+      ) as gsap.TweenTarget[];
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#proyectos",
+          start: "top 78%",
+          once: true,
+        },
+      });
+
+      tl.fromTo(
+        revealTargets,
+        { opacity: 0, y: 26, filter: "blur(5px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.85,
+          ease: "power3.out",
+          stagger: 0.12,
+        },
+      );
+
+      if (cards.length > 0) {
+        tl.fromTo(
+          cards,
+          { opacity: 0, y: 64, filter: "blur(8px)" },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.95,
+            ease: "power3.out",
+            stagger: { amount: 0.35, grid: [2, 2], from: "start" },
+          },
+          "-=0.45",
+        );
+      }
+
+      gsap.fromTo(
+        ".projects-heading span",
+        { opacity: 0, y: 46, filter: "blur(6px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: "#proyectos",
+            start: "top 80%",
+            once: true,
+          },
+        },
+      );
+
+      if (glow1 && glow2) {
+        gsap.to(glow1, {
+          y: "-14%",
+          x: "6%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#proyectos",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.6,
+          },
+        });
+        gsap.to(glow2, {
+          y: "18%",
+          x: "-8%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#proyectos",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 2,
+          },
+        });
+      }
+
+      cards.forEach((card) => {
+        const img = card.querySelector<HTMLElement>(".project-card-img");
+        if (img) {
+          gsap.fromTo(
+            img,
+            { yPercent: -7 },
+            {
+              yPercent: 7,
+              ease: "none",
+              scrollTrigger: {
+                trigger: card,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.2,
+              },
+            },
+          );
+        }
+      });
+
+      if (window.matchMedia("(min-width: 1024px)").matches) {
+        cards.forEach((card, index) => {
+          if (index % 2 === 1) {
+            gsap.to(card, {
+              y: -28,
+              ease: "none",
+              scrollTrigger: {
+                trigger: "#proyectos",
+                start: "top center",
+                end: "bottom top",
+                scrub: 1.4,
+              },
+            });
+          }
+        });
+      }
+
+      cards.forEach((card) => {
+        const rxTo = gsap.quickTo(card, "rotationX", {
+          duration: 0.45,
+          ease: "power2.out",
+        });
+        const ryTo = gsap.quickTo(card, "rotationY", {
+          duration: 0.45,
+          ease: "power2.out",
+        });
+
+        gsap.set(card, { transformPerspective: 1100 });
+
+        card.addEventListener(
+          "pointermove",
+          (e: PointerEvent) => {
+            const r = card.getBoundingClientRect();
+            const x = e.clientX - r.left;
+            const y = e.clientY - r.top;
+            const rx = (y / r.height - 0.5) * -6;
+            const ry = (x / r.width - 0.5) * 6;
+            rxTo(rx);
+            ryTo(ry);
+
+            card.style.setProperty("--mx", `${x}px`);
+            card.style.setProperty("--my", `${y}px`);
+          },
+          { passive: true },
+        );
+
+        card.addEventListener(
+          "pointerleave",
+          () => {
+            rxTo(0);
+            ryTo(0);
+          },
+          { passive: true },
+        );
+      });
+
+      const magneticEls =
+        document.querySelectorAll<HTMLElement>("[data-magnetic]");
+      magneticEls.forEach((el) => {
+        const xTo = gsap.quickTo(el, "x", {
+          duration: 0.38,
+          ease: "power2.out",
+        });
+        const yTo = gsap.quickTo(el, "y", {
+          duration: 0.38,
+          ease: "power2.out",
+        });
+
+        el.addEventListener(
+          "pointermove",
+          (e: PointerEvent) => {
+            const rect = el.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dx = (e.clientX - centerX) * 0.35;
+            const dy = (e.clientY - centerY) * 0.35;
+            xTo(dx);
+            yTo(dy);
+          },
+          { passive: true },
+        );
+
+        el.addEventListener(
+          "pointerleave",
+          () => {
+            gsap.to(el, {
+              x: 0,
+              y: 0,
+              duration: 0.7,
+              ease: "elastic.out(1, 0.4)",
+            });
+          },
+          { passive: true },
+        );
+      });
+    } else {
+      gsap.set([eyebrow, ...heading, desc, ctaWrap, ...cards].filter(Boolean), {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initProjectsAnimations);
+  } else {
+    initProjectsAnimations();
+  }
+</script>

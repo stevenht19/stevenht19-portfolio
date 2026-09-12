@@ -21,7 +21,14 @@
     "Plus Jakarta Sans Variable", "Plus Jakarta Sans", system-ui, -apple-system,
     sans-serif;
   --font-display: "Cabinet Grotesk", sans-serif;
-  --color-primary: color-mix(in srgb, var(--color-blue-200) 90%, transparent);
+  --color-primary: #d4ff00;
+  --color-primary-hover: #e4ff4d;
+  --breakpoint-3xl: 120rem;
+}
+
+::selection {
+  background-color: #d4ff00;
+  color: #09090b;
 }
 
 html {
