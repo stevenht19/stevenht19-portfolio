@@ -62,3 +62,18 @@ export interface HeroMetricItem {
   indicatorColor?: string;
   isPulse?: boolean;
 }
+
+export interface ExperienceEntry {
+  id: string;
+  index: string;
+  company: string;
+  role: string;
+  timeframe: string;
+  isCurrent?: boolean;
+  location: string;
+  workMode: string;
+  summary: string;
+  responsibilities: string[];
+  technologies: string[];
+  kind?: "work" | "education";
+}
