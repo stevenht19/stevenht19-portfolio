@@ -29,7 +29,7 @@ export const PROJECTS_DATA: Project[] = [
     image: ssanchez,
     imageAlt: "Sandra Sanchez - Maquilladora Profesional",
     preview: "https://ssanchez-makeup.vercel.app",
-    tone: "indigo",
+    tone: "roselight",
   },
   {
     id: "pos-engine",

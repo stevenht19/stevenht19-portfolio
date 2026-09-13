@@ -32,7 +32,7 @@ export interface SiteInfo {
   };
 }
 
-export type ProjectTone = "blue" | "indigo" | "sky" | "cyan";
+export type ProjectTone = "blue" | "indigo" | "sky" | "cyan" | "roselight";
 
 export interface Project {
   id: string;
@@ -76,4 +76,12 @@ export interface ExperienceEntry {
   responsibilities: string[];
   technologies: string[];
   kind?: "work" | "education";
+}
+
+export interface ServiceEntry {
+  id: string;
+  index: string;
+  tag: string;
+  title: string;
+  description: string;
 }

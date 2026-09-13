@@ -42,4 +42,12 @@ export const TONES: Record<Project["tone"], ToneTokens> = {
     linkHover: "hover:text-primary",
     arrowHover: "group-hover/proj:bg-violet-400/20",
   },
+  roselight: {
+    spot: "184 50 79",
+    roleChip: "border-rose-400/30 bg-rose-500/15 text-rose-200",
+    chipHover: "hover:border-primary/40 hover:bg-primary/10 hover:text-primary",
+    indexHover: "group-hover/proj:text-primary",
+    linkHover: "hover:text-primary",
+    arrowHover: "group-hover/proj:bg-rose-400/20",
+  },
 };

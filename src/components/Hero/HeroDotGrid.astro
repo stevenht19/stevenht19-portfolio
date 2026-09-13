@@ -98,6 +98,15 @@ const { class: className = "" } = Astro.props;
       circlePath.arc(0, 0, dotSize / 2, 0, Math.PI * 2);
     }
 
+    const isMobile = () => {
+      if (typeof window === "undefined") return false;
+      return (
+        window.innerWidth < 768 ||
+        window.matchMedia("(max-width: 768px)").matches ||
+        window.matchMedia("(hover: none)").matches
+      );
+    };
+
     const buildGrid = () => {
       const { width, height } = wrap.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
@@ -137,6 +146,22 @@ const { class: className = "" } = Astro.props;
         }
       }
       dots = newDots;
+
+      cancelAnimationFrame(rafId);
+      if (isMobile()) {
+        for (let i = 0; i < dots.length; i++) {
+          gsap.killTweensOf(dots[i]);
+          dots[i].xOffset = 0;
+          dots[i].yOffset = 0;
+          dots[i]._inertiaApplied = false;
+        }
+        pointer.x = -1000;
+        pointer.y = -1000;
+        pointer.hasMoved = false;
+        draw();
+      } else if (isVisible) {
+        rafId = requestAnimationFrame(draw);
+      }
     };
 
     let rafId = 0;
@@ -148,7 +173,9 @@ const { class: className = "" } = Astro.props;
       if (!ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const { x: px, y: py } = pointer;
+      const mobile = isMobile();
+      const px = mobile ? -1000 : pointer.x;
+      const py = mobile ? -1000 : pointer.y;
 
       for (let i = 0; i < dots.length; i++) {
         const dot = dots[i];
@@ -159,7 +186,7 @@ const { class: className = "" } = Astro.props;
         const dsq = dx * dx + dy * dy;
 
         let fillStyle = baseColor;
-        if (dsq <= proxSq) {
+        if (!mobile && dsq <= proxSq) {
           const dist = Math.sqrt(dsq);
           const t = 1 - dist / proximity;
           const r = Math.round(baseRgb.r + (activeRgb.r - baseRgb.r) * t);
@@ -181,10 +208,13 @@ const { class: className = "" } = Astro.props;
         ctx.restore();
       }
 
-      rafId = requestAnimationFrame(draw);
+      if (!mobile) {
+        rafId = requestAnimationFrame(draw);
+      }
     };
 
     const onMove = (e: MouseEvent | Touch) => {
+      if (isMobile()) return;
       const now = performance.now();
       if (!pointer.hasMoved) {
         pointer.hasMoved = true;
@@ -240,6 +270,7 @@ const { class: className = "" } = Astro.props;
     };
 
     const onClick = (e: MouseEvent) => {
+      if (isMobile()) return;
       pointer.hasMoved = true;
       const rect = canvas.getBoundingClientRect();
       const cx = e.clientX - rect.left;
@@ -277,6 +308,7 @@ const { class: className = "" } = Astro.props;
     let touchEndTimeout: ReturnType<typeof setTimeout> | null = null;
 
     const onTouchMove = (e: TouchEvent) => {
+      if (isMobile()) return;
       if (touchEndTimeout) {
         clearTimeout(touchEndTimeout);
         touchEndTimeout = null;
@@ -287,6 +319,7 @@ const { class: className = "" } = Astro.props;
     };
 
     const onTouchStart = (e: TouchEvent) => {
+      if (isMobile()) return;
       if (touchEndTimeout) {
         clearTimeout(touchEndTimeout);
         touchEndTimeout = null;
@@ -297,6 +330,7 @@ const { class: className = "" } = Astro.props;
     };
 
     const onTouchEnd = () => {
+      if (isMobile()) return;
       touchEndTimeout = setTimeout(() => {
         pointer.x = -1000;
         pointer.y = -1000;
@@ -330,7 +364,12 @@ const { class: className = "" } = Astro.props;
           if (entry.isIntersecting) {
             if (!isVisible) {
               isVisible = true;
-              rafId = requestAnimationFrame(draw);
+              if (isMobile()) {
+                draw();
+              } else {
+                cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(draw);
+              }
             }
           } else {
             isVisible = false;
@@ -350,6 +389,9 @@ const { class: className = "" } = Astro.props;
       window.addEventListener("resize", buildGrid);
     }
 
-    rafId = requestAnimationFrame(draw);
+    if (!isMobile()) {
+      rafId = requestAnimationFrame(draw);
+    }
   }
 </script>
+

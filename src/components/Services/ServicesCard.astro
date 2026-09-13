@@ -1,0 +1,27 @@
+---
+import type { ServiceEntry } from "@types";
+import ServicesCardGlow from "./ServicesCardGlow.astro";
+import ServicesCardHeader from "./ServicesCardHeader.astro";
+import ServicesCardBody from "./ServicesCardBody.astro";
+
+interface Props {
+  entry: ServiceEntry;
+  class?: string;
+}
+
+const { entry, class: className = "" } = Astro.props;
+---
+
+<li
+  class:list={[
+    "services-card min-h-65 group relative overflow-hidden rounded-3xl bg-white/3 p-7 transition-all duration-500 will-change-transform opacity-0 backdrop-blur-sm hover:-translate-y-1.5 hover:bg-white/5 hover:shadow-[0_18px_50px_-20px_rgba(212,255,0,0.25)] sm:p-8",
+    className,
+  ]}
+  style="--mx:50%;--my:50%;"
+>
+  <ServicesCardGlow />
+  <div class="relative flex flex-col">
+    <ServicesCardHeader tag={entry.tag} index={entry.index} />
+    <ServicesCardBody title={entry.title} description={entry.description} />
+  </div>
+</li>

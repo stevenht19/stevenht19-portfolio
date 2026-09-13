@@ -1,7 +1,8 @@
 ---
 import ProjectCard from "./ProjectCard.astro";
 import ProjectsParticles from "./ProjectsParticles";
-import Icon from "@components/ui/Icon.astro";
+import SectionCtaButton from "@components/ui/SectionCtaButton.astro";
+import SectionEyebrow from "@components/ui/SectionEyebrow.astro";
 import { PROJECTS_DATA } from "@data/projects";
 import { SITE_INFO } from "@data/site";
 ---
@@ -34,21 +35,11 @@ import { SITE_INFO } from "@data/site";
       class="mb-16 grid gap-10 sm:mb-20 lg:grid-cols-12 lg:items-end lg:gap-14"
     >
       <div class="lg:col-span-7">
-        <span
-          class="projects-eyebrow mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/4 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-300 opacity-0"
-        >
-          <span class="relative flex h-1.5 w-1.5" aria-hidden="true">
-            <span
-              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60"
-            ></span>
-            <span
-              class="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary"
-            ></span>
-          </span>
-          Selección de trabajo · {
-            String(PROJECTS_DATA.length)?.padStart(2, "0")
-          }
-        </span>
+        <SectionEyebrow
+          class="projects-eyebrow mb-5 opacity-0"
+          label="Selección de trabajo"
+          count={PROJECTS_DATA.length}
+        />
 
         <h2
           class="projects-heading font-display font-extrabold leading-[0.92] tracking-tight text-white"
@@ -72,19 +63,12 @@ import { SITE_INFO } from "@data/site";
           y detalle.
         </p>
         <div class="projects-cta-wrap opacity-0 lg:text-right">
-          <a
+          <SectionCtaButton
             href={SITE_INFO.socials.github.href}
             target="_blank"
-            rel="noopener noreferrer"
-            data-magnetic
-            class="group/ghost inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-transparent px-5 py-3 text-sm font-medium text-zinc-400 transition-all duration-300 hover:border-white/25 hover:bg-white/4 hover:text-white will-change-transform"
-          >
-            <span>Ver todo en GitHub</span>
-            <Icon
-              name="external"
-              class="w-3.5 h-3.5 transition-transform duration-300 group-hover/ghost:-translate-y-0.5 group-hover/ghost:translate-x-0.5"
-            />
-          </a>
+            label="Ver todo en GitHub"
+            icon="external"
+          />
         </div>
       </div>
     </header>
