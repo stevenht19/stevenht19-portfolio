@@ -35,25 +35,23 @@ const {
       class="gap-3 shadow-[0_0_36px_-6px_rgba(212,255,0,0.48)] hover:shadow-[0_0_54px_-4px_rgba(212,255,0,0.75)]"
     >
       <span>{primaryLabel}</span>
-      <CtaIcon />
+      <CtaIcon size="md" />
     </Button>
 
     <Button
       href={secondaryHref}
       variant="secondary"
       size="md"
-      class="hero-btn-secondary gap-2.5 focus-visible:ring-purple-400/40"
+      class="hero-btn-secondary gap-3 focus-visible:ring-purple-400/40"
     >
-      <span class="tracking-tight text-[14px] font-medium"
-        >{secondaryLabel}</span
-      >
+      <span>{secondaryLabel}</span>
       <span
-        class="flex h-5 w-5 items-center justify-center rounded-full bg-white/6 text-zinc-400 group-hover:text-white group-hover:bg-white/12 transition-colors duration-300"
+        class="relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-zinc-300 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 group-hover:text-white"
         aria-hidden="true"
       >
         <Icon
           name="arrow-down"
-          class="w-3 h-3 transition-transform duration-300 group-hover:translate-y-0.5"
+          class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-y-0.5"
         />
       </span>
     </Button>
