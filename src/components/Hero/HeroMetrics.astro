@@ -18,17 +18,19 @@ const { class: className = "" } = Astro.props;
   <div
     class="max-w-7xl 2xl:max-w-368 3xl:max-w-[114rem] mx-auto px-6 sm:px-9 2xl:px-12 3xl:px-16 py-8 sm:py-14 2xl:py-16"
   >
-    <div
-      class="grid grid-cols-2 lg:grid-cols-4"
-    >
+    <div class="grid grid-cols-2 lg:grid-cols-4">
       {
         METRICS_DATA.map((item, index) => {
-          // Borde vertical en móvil/tablet: solo la columna derecha (impares)
-          const mobileColBorder = index % 2 === 1 ? "border-l border-white/8 pl-4 sm:pl-7" : "pr-4 sm:pr-7";
-          // Borde horizontal en móvil/tablet: solo la fila inferior (índices 2 y 3)
-          const mobileRowBorder = index >= 2 ? "border-t border-white/8 pt-6 sm:pt-8" : "pb-6 sm:pb-8";
-          // En desktop: reseteamos bordes horizontales y aplicamos separador vertical para cada item excepto el primero
-          const desktopClasses = "lg:border-t-0 lg:border-l lg:border-white/8 lg:py-8 lg:px-8 2xl:px-10 lg:first:pl-0 lg:last:pr-0 lg:first:border-l-0";
+          const mobileColBorder =
+            index % 2 === 1
+              ? "border-l border-white/8 pl-4 sm:pl-7"
+              : "pr-4 sm:pr-7";
+          const mobileRowBorder =
+            index >= 2
+              ? "border-t border-white/8 pt-6 sm:pt-8"
+              : "pb-6 sm:pb-8";
+          const desktopClasses =
+            "lg:border-t-0 lg:border-l lg:border-white/8 lg:py-8 lg:px-8 2xl:px-10 lg:first:pl-0 lg:last:pr-0 lg:first:border-l-0";
 
           return (
             <div
@@ -46,7 +48,14 @@ const { class: className = "" } = Astro.props;
 
                 {item.type === "stat" && (
                   <div class="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 sm:gap-2.5">
-                    <span class="hero-metric-stat font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white transition-colors duration-300 group-hover:text-primary leading-none">
+                    <span
+                      class:list={[
+                        "hero-metric-stat font-display font-extrabold tracking-tight text-white transition-colors duration-300 group-hover:text-primary leading-tight",
+                        /^\+?\d+$/.test(item.statValue ?? "")
+                          ? "text-3xl sm:text-4xl lg:text-5xl leading-none"
+                          : "text-xl sm:text-2xl lg:text-3xl",
+                      ]}
+                    >
                       {item.statValue}
                     </span>
                     {item.statSuffix && (
@@ -58,7 +67,7 @@ const { class: className = "" } = Astro.props;
                 )}
 
                 {(item.type === "list" || item.type === "location") && (
-                  <span class="font-display text-xl sm:text-2xl lg:text-4xl font-extrabold tracking-tight text-white transition-colors duration-300 group-hover:text-primary leading-tight">
+                  <span class="font-display text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-white transition-colors duration-300 group-hover:text-primary leading-tight">
                     {item.type === "location"
                       ? item.title
                       : item.items?.map((tech, i) => (
