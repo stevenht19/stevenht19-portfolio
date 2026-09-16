@@ -1,0 +1,22 @@
+---
+import Button from "@components/ui/Button.astro";
+import CtaIcon from "@components/ui/CtaIcon.astro";
+
+interface Props {
+  label?: string;
+  href?: string;
+  class?: string;
+}
+
+const {
+  label = "Hablemos",
+  href = "#contacto",
+  class: className = "",
+} = Astro.props;
+---
+
+<Button href={href} variant="primary" size="sm" class={className}>
+  <span>{label}</span>
+  <CtaIcon variant="plain" class="text-slate-800" />
+</Button>
+

@@ -1,0 +1,224 @@
+---
+import ServicesCard from "./ServicesCard.astro";
+import Icon from "@components/ui/Icon.astro";
+import BackgroundGrid from "@components/ui/BackgroundGrid.astro";
+import SectionEyebrow from "@components/ui/SectionEyebrow.astro";
+import { SERVICES_DATA } from "@data/services";
+import Button from "@components/ui/Button.astro";
+import ServicesCtaBanner from "./ServicesCtaBanner.astro";
+---
+
+<section
+  id="servicios"
+  class="services-section relative overflow-hidden border-y border-white/8 bg-zinc-950 py-24 sm:py-28 lg:py-36"
+  aria-label="Servicios profesionales"
+>
+  <BackgroundGrid />
+
+  <div
+    class="pointer-events-none absolute top-0 inset-x-0 z-20 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="relative z-10 mx-auto max-w-7xl px-6 sm:px-9 2xl:max-w-368 2xl:px-12 3xl:max-w-[114rem] 3xl:px-16"
+  >
+    <header
+      class="mb-14 grid gap-10 sm:mb-18 lg:grid-cols-12 lg:items-end lg:gap-14"
+    >
+      <div class="lg:col-span-7">
+        <SectionEyebrow
+          class="services-eyebrow mb-5 opacity-0"
+          label="Lo que hago por tu negocio"
+          count={SERVICES_DATA.length}
+        />
+
+        <h2
+          id="servicios-heading"
+          class="services-heading font-display font-extrabold leading-[0.92] tracking-tight text-white"
+        >
+          <span class="block text-[clamp(2.65rem,5vw+1rem,5.25rem)] opacity-0"
+            >Servicios</span
+          >
+          <span
+            class="services-heading-outline block text-[clamp(2.65rem,5vw+1rem,5.25rem)] text-transparent [-webkit-text-stroke:1.5px_rgba(212,255,0,0.60)] opacity-0"
+            >para tu negocio</span
+          >
+        </h2>
+      </div>
+
+      <div class="lg:col-span-5">
+        <p
+          class="services-desc mb-7 max-w-lg leading-relaxed text-zinc-400 opacity-0 lg:ml-auto"
+        >
+          Claro, sin tecnicismos: esto es lo que puedo hacer para que tu negocio
+          se vea, venda y trabaje mejor en línea.
+        </p>
+        <div class="services-cta-wrap opacity-0 lg:text-right">
+          <Button
+            href="#contacto"
+            variant="secondary"
+            size="md"
+            data-magnetic
+            class="gap-2.5"
+          >
+            <span>Hablemos de tu proyecto</span>
+            <Icon
+              name="arrow-down"
+              class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-y-0.5"
+            />
+          </Button>
+        </div>
+      </div>
+    </header>
+
+    <ul class="services-grid grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {SERVICES_DATA.map((service) => <ServicesCard entry={service} />)}
+      <ServicesCtaBanner />
+    </ul>
+  </div>
+
+  <div
+    class="absolute bottom-0 inset-x-0 h-px bg-white/6 z-20"
+    aria-hidden="true"
+  >
+  </div>
+</section>
+
+<script>
+  import {
+    gsap,
+    prefersReducedMotion,
+    onDomReady,
+    initMagneticElements,
+  } from "@utils/motion";
+
+  function initServicesAnimations() {
+    const isReduced = prefersReducedMotion();
+
+    const eyebrow = document.querySelector(".services-eyebrow");
+    const headingSpans = document.querySelectorAll(".services-heading span");
+    const desc = document.querySelector(".services-desc");
+    const ctaWrap = document.querySelector(".services-cta-wrap");
+    const cards = gsap.utils.toArray<HTMLElement>(".services-card");
+    const ctaCard = document.querySelector(".services-cta-card");
+
+    if (!isReduced) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#servicios",
+          start: "top 78%",
+          once: true,
+        },
+      });
+
+      tl.fromTo(
+        [eyebrow, desc, ctaWrap].filter(Boolean),
+        { opacity: 0, y: 26, filter: "blur(5px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.85,
+          ease: "power3.out",
+          stagger: 0.12,
+        },
+      );
+
+      tl.fromTo(
+        ".services-heading span",
+        { opacity: 0, y: 46, filter: "blur(6px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.1,
+        },
+        "-=0.4",
+      );
+
+      if (cards.length > 0) {
+        tl.fromTo(
+          cards,
+          { opacity: 0, y: 44, scale: 0.98, filter: "blur(5px)" },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 0.75,
+            ease: "power3.out",
+            stagger: 0.1,
+          },
+          "-=0.5",
+        );
+      }
+
+      if (ctaCard) {
+        tl.fromTo(
+          ctaCard,
+          { opacity: 0, y: 44, scale: 0.98, filter: "blur(5px)" },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 0.75,
+            ease: "power3.out",
+          },
+          "-=0.55",
+        );
+      }
+
+      document
+        .querySelectorAll<HTMLElement>(".services-card")
+        .forEach((card) => {
+          let cardRect: DOMRect | null = null;
+          card.addEventListener(
+            "pointerenter",
+            () => {
+              cardRect = card.getBoundingClientRect();
+            },
+            { passive: true },
+          );
+          card.addEventListener(
+            "pointermove",
+            (e: PointerEvent) => {
+              if (!cardRect) cardRect = card.getBoundingClientRect();
+              const mx = ((e.clientX - cardRect.left) / cardRect.width) * 100;
+              const my = ((e.clientY - cardRect.top) / cardRect.height) * 100;
+              card.style.setProperty("--mx", `${mx}%`);
+              card.style.setProperty("--my", `${my}%`);
+            },
+            { passive: true },
+          );
+          card.addEventListener(
+            "pointerleave",
+            () => {
+              cardRect = null;
+            },
+            { passive: true },
+          );
+        });
+
+      initMagneticElements(document.getElementById("servicios") || document);
+    } else {
+      gsap.set(
+        [
+          eyebrow,
+          ...Array.from(headingSpans),
+          desc,
+          ctaWrap,
+          ...cards,
+          ctaCard,
+        ].filter(Boolean),
+        { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
+      );
+    }
+  }
+
+  onDomReady(initServicesAnimations);
+</script>

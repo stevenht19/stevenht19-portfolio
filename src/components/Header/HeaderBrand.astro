@@ -1,0 +1,31 @@
+---
+import { Image } from "astro:assets";
+import logoImg from "@assets/logo.png";
+import { SITE_INFO } from "@data/site";
+
+interface Props {
+  name?: string;
+  href?: string;
+  class?: string;
+}
+
+const { name = SITE_INFO.name, href = "/", class: className = "" } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    "header-brand-link flex items-center -translate-x-2.5 group focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-300/40 transition-transform duration-300 ease-out",
+    className,
+  ]}
+  aria-label={`${name} - Inicio`}
+>
+  <Image
+    src={logoImg}
+    alt={`Logotipo personal de ${name}`}
+    width={44}
+    height={44}
+    class="h-9 sm:h-10 w-auto"
+    loading="eager"
+  />
+</a>

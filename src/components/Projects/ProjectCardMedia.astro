@@ -1,0 +1,73 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  image: string;
+  imageAlt: string;
+  title: string;
+  preview?: string;
+  repo?: string;
+  class?: string;
+}
+
+const {
+  image,
+  imageAlt,
+  title,
+  preview,
+  repo,
+  class: className = "",
+} = Astro.props;
+
+const primaryHref = preview ?? repo;
+---
+
+<div
+  class:list={[
+    "relative z-10 mx-3 mt-3 aspect-16/10 overflow-hidden rounded-3xl border border-white/7 bg-zinc-950/80",
+    className,
+  ]}
+>
+  <div
+    class="absolute inset-x-0 top-0 z-20 flex h-8 items-center gap-1.5 border-b border-white/6 bg-white/3 px-3.5"
+    aria-hidden="true"
+  >
+    <span class="h-2 w-2 rounded-full bg-red-400/70"></span>
+    <span class="h-2 w-2 rounded-full bg-amber-300/70"></span>
+    <span class="h-2 w-2 rounded-full bg-emerald-300/70"></span>
+    <span
+      class="ml-2 hidden w-max min-w-24 flex-1 truncate rounded-md bg-white/4.5 px-2 py-1 text-[9px] leading-none tracking-tight text-zinc-500 sm:block"
+    >
+      {preview ?? repo ?? "github.com/stevenht19"}
+    </span>
+  </div>
+
+  {
+    primaryHref && (
+      <a
+        href={primaryHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="project-card-media absolute inset-0 top-8 z-10 block overflow-hidden"
+        aria-label={`Abrir ${title}`}
+      >
+        <Image
+          src={image}
+          alt={imageAlt}
+          width={720}
+          height={425}
+          quality={95}
+          loading="lazy"
+          decoding="async"
+          class="project-card-img h-full w-full object-cover object-top scale-[1.14] transition-[filter,transform] duration-1000 ease-out will-change-transform"
+        />
+      </a>
+    )
+  }
+
+  <div
+    class="project-card-overlay pointer-events-none absolute inset-0 z-30 bg-linear-to-t from-zinc-950/75 via-zinc-950/5 to-zinc-950/20 opacity-0 transition-opacity duration-500 group-hover/proj:opacity-100"
+    aria-hidden="true"
+  >
+  </div>
+</div>

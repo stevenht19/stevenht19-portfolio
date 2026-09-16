@@ -1,0 +1,158 @@
+---
+import { SITE_INFO, DEFAULT_SOCIAL_LINKS } from "@data/site";
+import Icon from "@components/ui/Icon.astro";
+import BackgroundGrid from "@components/ui/BackgroundGrid.astro";
+import Button from "@components/ui/Button.astro";
+import CtaIcon from "@components/ui/CtaIcon.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+
+const whatsappUrl = SITE_INFO.whatsapp;
+
+const BRAND_STYLES: Record<
+  "github" | "linkedin",
+  { iconState: string; shadowHover: string }
+> = {
+  github: {
+    iconState: "group-hover:bg-white group-hover:text-zinc-950",
+    shadowHover: "group-hover:shadow-[0_10px_30px_-8px_rgba(255,255,255,0.4)]",
+  },
+  linkedin: {
+    iconState: "group-hover:bg-[#0a66c2] group-hover:text-white",
+    shadowHover: "group-hover:shadow-[0_10px_30px_-8px_rgba(10,102,194,0.55)]",
+  },
+};
+---
+
+<section
+  id="contacto"
+  aria-label="Contacto"
+  class:list={[
+    "relative overflow-hidden border-t border-white/8 bg-[#07080c] py-18 lg:py-36",
+    className,
+  ]}
+>
+  <BackgroundGrid lineAlpha={0.085} opacity={90} mask="radial" />
+
+  <div
+    class="relative mx-auto max-w-5xl px-6 text-center sm:px-10 2xl:max-w-368 2xl:px-12 3xl:max-w-[114rem] 3xl:px-16"
+  >
+    <h2
+      class="contact-heading mt-8 font-display font-extrabold leading-[0.95] tracking-tight text-white text-[clamp(2.75rem,5.2vw+0.75rem,5.6rem)]"
+    >
+      <span class="block">¿Construimos algo</span>
+      <span class="block text-primary">increíble juntos?</span>
+    </h2>
+
+    <p
+      class="contact-sub mx-auto mt-8 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg"
+    >
+      Cuéntame tu idea, tu reto o tu próximo proyecto. Te respondo rápido con un
+      plan claro y honesto para hacerlo realidad.
+    </p>
+
+    <div class="contact-cta mt-12">
+      <Button
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        variant="primary"
+        size="lg"
+        class="gap-3 shadow-[0_0_36px_-6px_rgba(212,255,0,0.48)] hover:shadow-[0_0_54px_-4px_rgba(212,255,0,0.75)]"
+      >
+        <span>Cuéntame tu idea</span>
+        <CtaIcon />
+      </Button>
+    </div>
+
+    <div
+      class="contact-socials mt-10 flex flex-wrap items-center justify-center gap-3"
+    >
+      {
+        DEFAULT_SOCIAL_LINKS.map((item) => {
+          const iconName = item.name.toLowerCase() as "github" | "linkedin";
+          return (
+            <a
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                "group inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/3 py-1.5 pl-1.5 pr-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/6",
+                BRAND_STYLES[iconName].shadowHover,
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+              ]}
+              aria-label={item.ariaLabel}
+              title={item.title}
+            >
+              <span
+                class:list={[
+                  "grid h-9 w-9 place-items-center rounded-full bg-white/5 text-zinc-300 transition-all duration-300",
+                  BRAND_STYLES[iconName].iconState,
+                ]}
+                aria-hidden="true"
+              >
+                <Icon name={iconName} class="h-4 w-4 fill-current" />
+              </span>
+              <span class="text-sm font-semibold text-zinc-300 transition-colors duration-300 group-hover:text-white">
+                {item.name}
+              </span>
+              <svg
+                class="h-3.5 w-3.5 text-zinc-600 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M7 17L17 7" />
+                <path d="M7 7h10v10" />
+              </svg>
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap, prefersReducedMotion, onDomReady } from "@utils/motion";
+
+  function initContactAnimations() {
+    const targets = gsap.utils.toArray<HTMLElement>([
+      ".contact-heading",
+      ".contact-sub",
+      ".contact-cta",
+      ".contact-socials",
+    ]);
+
+    if (!prefersReducedMotion()) {
+      gsap.fromTo(
+        targets,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: "#contacto",
+            start: "top 75%",
+            once: true,
+          },
+        },
+      );
+    } else {
+      gsap.set(targets, { opacity: 1, y: 0 });
+    }
+  }
+
+  onDomReady(initContactAnimations);
+</script>

@@ -1,0 +1,23 @@
+---
+interface Props {
+  tag?: string;
+  index: string;
+  class?: string;
+}
+
+const { tag, index, class: className = "" } = Astro.props;
+---
+
+<div class:list={["flex items-start justify-between gap-4", className]}>
+  <span
+    class="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500 transition-colors duration-300 group-hover:text-zinc-400"
+  >
+    {tag}
+  </span>
+  <span
+    class="font-display text-5xl font-extrabold leading-none text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.28)] transition-[color,-webkit-text-stroke-color] duration-300 group-hover:text-primary group-hover:[-webkit-text-stroke-color:transparent]"
+    aria-hidden="true"
+  >
+    {index}
+  </span>
+</div>

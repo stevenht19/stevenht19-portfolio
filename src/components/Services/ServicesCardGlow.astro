@@ -1,0 +1,69 @@
+---
+interface Props {
+  class?: string;
+  spotlight?: boolean;
+}
+
+const { class: className = "", spotlight = true } = Astro.props;
+---
+
+<span
+  class:list={["service-ring pointer-events-none absolute inset-0", className]}
+  aria-hidden="true"
+></span>
+
+{
+  spotlight && (
+    <div
+      class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+      style="background:radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%),rgba(212,255,0,0.07),transparent 70%);"
+      aria-hidden="true"
+    />
+  )
+}
+
+<style>
+  @property --ring-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+  }
+
+  .service-ring {
+    padding: 1px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--ring-angle, 0deg),
+      transparent 0deg,
+      transparent 130deg,
+      rgba(212, 255, 0, 0.9) 175deg,
+      rgba(168, 85, 247, 0.85) 235deg,
+      rgba(59, 130, 246, 0.85) 300deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    animation: service-ring-spin 6s linear infinite;
+    opacity: 0.55;
+    transition:
+      opacity 0.45s ease,
+      filter 0.45s ease;
+  }
+
+  :global(.group:hover) .service-ring {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(212, 255, 0, 0.35));
+  }
+
+  @keyframes service-ring-spin {
+    to {
+      --ring-angle: 360deg;
+    }
+  }
+</style>

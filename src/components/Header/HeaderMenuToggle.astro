@@ -1,0 +1,69 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id = "menu-toggle", class: className = "" } = Astro.props;
+---
+
+<button
+  id={id}
+  type="button"
+  class:list={[
+    "md:hidden relative size-9 flex items-center justify-center -mr-1.5 text-zinc-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-white/30 rounded-md group cursor-pointer",
+    className,
+  ]}
+  aria-label="Abrir menú de navegación"
+  aria-expanded="false"
+>
+  <span class="sr-only">Menú</span>
+  <div
+    class="pointer-events-none relative flex size-full items-center justify-center"
+    aria-hidden="true"
+  >
+    <span
+      class="menu-bar menu-bar-top absolute h-px w-4.5 bg-zinc-300 group-hover:bg-white origin-center"
+    ></span>
+    <span
+      class="menu-bar menu-bar-bottom absolute h-px w-4.5 bg-zinc-300 group-hover:bg-white origin-center"
+    ></span>
+  </div>
+</button>
+
+<style>
+  .menu-bar {
+    transition:
+      transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.15s ease;
+  }
+
+  .menu-bar-top {
+    transform: translateY(-2.5px) rotate(0deg);
+  }
+
+  .menu-bar-bottom {
+    transform: translateY(2.5px) rotate(0deg);
+  }
+
+  #menu-toggle[aria-expanded="true"] .menu-bar,
+  #menu-toggle.is-active .menu-bar {
+    background-color: #ffffff;
+  }
+
+  #menu-toggle[aria-expanded="true"] .menu-bar-top,
+  #menu-toggle.is-active .menu-bar-top {
+    transform: translateY(0) rotate(45deg);
+  }
+
+  #menu-toggle[aria-expanded="true"] .menu-bar-bottom,
+  #menu-toggle.is-active .menu-bar-bottom {
+    transform: translateY(0) rotate(-45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-bar {
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>

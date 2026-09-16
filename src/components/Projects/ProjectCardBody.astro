@@ -1,0 +1,42 @@
+---
+interface Props {
+  index: string;
+  title: string;
+  description: string;
+  indexHoverClass?: string;
+  class?: string;
+}
+
+const {
+  index,
+  title,
+  description,
+  indexHoverClass = "",
+  class: className = "",
+} = Astro.props;
+---
+
+<span
+  class:list={[
+    "project-card-index pointer-events-none absolute right-4 top-5 z-30 font-display font-black leading-none tracking-tight text-transparent transition-colors duration-500",
+    "text-[4.25rem] sm:text-[5.25rem]",
+    "[-webkit-text-stroke:1.5px_rgba(148,163,184,0.32)]",
+    indexHoverClass,
+  ]}
+  aria-hidden="true"
+>
+  {index}
+</span>
+
+<div
+  class:list={["relative z-10 flex flex-1 flex-col gap-3 p-6 sm:p-7", className]}
+>
+  <h3
+    class="font-display text-2xl font-extrabold tracking-tight text-white sm:text-[1.7rem]"
+  >
+    {title}
+  </h3>
+  <p class="text-sm leading-relaxed text-zinc-400 sm:text-[15px]">
+    {description}
+  </p>
+</div>

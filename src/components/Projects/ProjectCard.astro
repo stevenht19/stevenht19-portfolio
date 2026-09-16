@@ -1,0 +1,53 @@
+---
+import type { Project } from "@types";
+import ProjectCardGlow from "./ProjectCardGlow.astro";
+import ProjectCardMedia from "./ProjectCardMedia.astro";
+import ProjectCardBody from "./ProjectCardBody.astro";
+import ProjectCardDrawer from "./ProjectCardDrawer.astro";
+import { TONES } from "./projectTones";
+
+interface Props {
+  project: Project;
+  class?: string;
+}
+
+const { project, class: className = "" } = Astro.props;
+
+const tone = TONES[project.tone];
+---
+
+<article
+  class:list={[
+    "project-card group/proj relative flex flex-col overflow-hidden rounded-4xl border border-white/8 bg-white/3 opacity-0 backdrop-blur-sm transition-colors duration-500 will-change-transform select-none hover:border-white/16",
+    className,
+  ]}
+  style={`--spot: ${tone.spot}`}
+>
+  <ProjectCardGlow spot={tone.spot} />
+
+  <ProjectCardMedia
+    image={project.image}
+    imageAlt={project.imageAlt}
+    title={project.title}
+    role={project.role}
+    preview={project.preview}
+    repo={project.repo}
+    roleChipClass={tone.roleChip}
+  />
+
+  <ProjectCardBody
+    index={project.index}
+    title={project.title}
+    description={project.description}
+    indexHoverClass={tone.indexHover}
+  />
+
+  <ProjectCardDrawer
+    technologies={project.technologies}
+    role={project.role}
+    title={project.title}
+    preview={project.preview}
+    repo={project.repo}
+    chipHoverClass={tone.chipHover}
+  />
+</article>

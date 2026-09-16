@@ -1,0 +1,36 @@
+---
+import type { SocialLink } from "@types";
+import { DEFAULT_SOCIAL_LINKS } from "@data/site";
+import Icon from "@components/ui/Icon.astro";
+
+interface Props {
+  socials?: SocialLink[];
+  class?: string;
+}
+
+const { socials = DEFAULT_SOCIAL_LINKS, class: className = "" } = Astro.props;
+---
+
+<div class:list={["hidden lg:flex items-center gap-0.5", className]}>
+  {
+    socials.map((item) => {
+      const iconName = item.name.toLowerCase() as "github" | "linkedin";
+      return (
+        <a
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="p-2 text-zinc-400 hover:text-white hover:bg-zinc-900/60 rounded-lg transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-300/40"
+          aria-label={item.ariaLabel}
+          title={item.title}
+        >
+          {iconName === "github" || iconName === "linkedin" ? (
+            <Icon name={iconName} class="w-5.5 h-5.5" />
+          ) : (
+            <span>{item.name}</span>
+          )}
+        </a>
+      );
+    })
+  }
+</div>

@@ -1,0 +1,31 @@
+---
+import TechIcon from "@components/ui/TechIcon.astro";
+import { techResolver as defaultResolver } from "@services/techResolver";
+import type { ITechResolver } from "@types";
+
+interface Props {
+  tech: string;
+  resolver?: ITechResolver;
+  class?: string;
+}
+
+const { tech, resolver = defaultResolver, class: className = "" } = Astro.props;
+
+const meta = resolver.resolve(tech);
+---
+
+<li
+  class:list={[
+    "group/badge relative inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 font-display text-[14px] font-medium tracking-tight text-zinc-400 transition-all duration-300 hover:border-white/25 hover:bg-white/[0.07] hover:text-white hover:shadow-[0_0_12px_rgba(255,255,255,0.06)]",
+    className,
+  ]}
+  title={meta.name}
+>
+  <span
+    class="flex h-3.5 w-3.5 shrink-0 items-center justify-center opacity-85 transition-transform duration-300 group-hover/badge:scale-110 group-hover/badge:opacity-100"
+    aria-hidden="true"
+  >
+    <TechIcon id={meta.id} />
+  </span>
+  <span class="truncate">{meta.name}</span>
+</li>

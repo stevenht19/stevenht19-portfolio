@@ -1,47 +1,128 @@
-# Astro Starter Kit: Minimal
+<div align="center">
+  <img src="./src/assets/logo.png" alt="Martín Hernández Logo" width="80" height="80" />
+  <h1>Martín Hernández</h1>
+  <p><strong>Desarrollador Fullstack</strong> · Lima, Perú (Disponible para trabajo remoto)</p>
+  <p>Portafolio profesional desarrollado con Astro, Tailwind CSS, Preact y GSAP, enfocado en rendimiento extremo, diseño moderno e interacciones fluidas.</p>
 
-```
-npm create astro@latest -- --template minimal
-```
+  <p>
+    <a href="https://www.martinstevenht.com"><strong>Sitio Web Oficial »</strong></a>
+    <br />
+    <a href="https://github.com/stevenht19">GitHub</a> ·
+    <a href="https://www.linkedin.com/in/martin-hernández-torres-4778a3267/">LinkedIn</a> ·
+    <a href="mailto:mstvdev19@gmail.com">Contacto</a>
+  </p>
+</div>
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+---
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## ✨ Características Principales
 
-## 🚀 Project Structure
+- ⚡ **Rendimiento Excepcional**: Generación estática optimizada con Astro 5 y Vite.
+- 🎨 **Diseño Moderno & Glassmorphism**: Paleta cuidada con acentos en verde lima/neón (`#d4ff00`), tipografía display *Cabinet Grotesk* y sistema tipográfico *Plus Jakarta Sans*.
+- 🪄 **Micro-interacciones y Animaciones GSAP**:
+  - Animaciones de entrada escalonadas y sincronizadas al scroll con `ScrollTrigger`.
+  - Efecto de perspectiva e inclinación 3D magnética en tarjetas (`setupCardTilt`).
+  - Lienzo interactivo canvas con partículas y cuadrícula de puntos dinámica (`DotGrid`).
+  - Detección automática de accesibilidad `prefers-reduced-motion` y ahorro de recursos cuando las secciones salen del viewport (`pauseWhenOutOfView`).
+- 📱 **Totalmente Responsivo**: Experiencia fluida y consistente en móviles, tablets y monitores ultrawide.
+- 🔍 **SEO Técnico & Datos Estructurados**:
+  - Etiquetas canónicas y directivas de rastreo para motores de búsqueda.
+  - Open Graph y Twitter Cards completas para previsualizaciones en redes sociales.
+  - Datos estructurados Schema.org (`Person` y `WebSite`) en formato JSON-LD.
+  - Generación de `sitemap.xml` y archivo `robots.txt`.
 
-Inside of your Astro project, you'll see the following folders and files:
+---
 
-```
-/
-├── public/
+## 🛠️ Stack Tecnológico
+
+| Capa | Tecnologías |
+| :--- | :--- |
+| **Framework Base** | [Astro](https://astro.build/) |
+| **Componentes Interactivos** | [Preact](https://preactjs.com/) |
+| **Estilos & UI** | [Tailwind CSS v4](https://tailwindcss.com/) + Vanilla CSS |
+| **Animaciones & Motion** | [GSAP](https://gsap.com/) & ScrollTrigger |
+| **Tipografía** | Plus Jakarta Sans Variable & Cabinet Grotesk |
+| **Optimización de Imágenes** | Sharp & Astro Assets |
+
+---
+
+## 📂 Estructura del Proyecto
+
+```text
+stevenht19-portfolio/
+├── public/                # Archivos estáticos públicos (favicon, robots.txt, sitemap.xml, fuentes)
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── assets/            # Imágenes, fotos y logotipos optimizados por Astro
+│   ├── components/
+│   │   ├── Header/        # Navegación principal, dock flotante y menú móvil
+│   │   ├── Hero/          # Presentación principal, métricas y portrait interactivo
+│   │   ├── Services/      # Catálogo de servicios profesionales y banners CTA
+│   │   ├── Projects/      # Proyectos destacados, tarjetas con efectos y partículas
+│   │   ├── Experience/    # Línea de tiempo de trayectoria laboral y stack utilizado
+│   │   ├── About/         # Sección sobre mí, tarjeta 3D con código e historia
+│   │   ├── Contact/       # Llamado a la acción directo con enlaces a WhatsApp y redes
+│   │   ├── Footer/        # Pie de página y navegación secundaria
+│   │   └── ui/            # Componentes atómicos (Button, DotGrid, TechIcon, etc.)
+│   ├── data/              # Datos desacoplados (proyectos, experiencia, servicios, métricas)
+│   ├── layouts/           # Plantilla base HTML con metadatos SEO y JSON-LD
+│   ├── pages/             # Rutas del sitio (index.astro)
+│   ├── styles/            # Estilos globales y temas Tailwind
+│   ├── types/             # Definiciones e interfaces de TypeScript modulares
+│   └── utils/             # Helpers de animación (GSAP, scroll, tilt, observer)
+├── astro.config.mjs       # Configuración de Astro, Tailwind e integraciones
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+---
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 🚀 Instalación y Desarrollo Local
 
-Any static assets, like images, can be placed in the `public/` directory.
+### Prerrequisitos
+- **Node.js**: v18.17.1 o superior
+- **pnpm**: v8 o superior (`npm install -g pnpm`)
 
-## 🧞 Commands
+### Pasos
 
-All commands are run from the root of the project, from a terminal:
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/stevenht19/stevenht19-portfolio.git
+   cd stevenht19-portfolio
+   ```
 
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `npm install`          | Installs dependencies                            |
-| `npm run dev`          | Starts local dev server at `localhost:3000`      |
-| `npm run build`        | Build your production site to `./dist/`          |
-| `npm run preview`      | Preview your build locally, before deploying     |
-| `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro --help` | Get help using the Astro CLI                     |
+2. **Instalar dependencias:**
+   ```bash
+   pnpm install
+   ```
 
-## 👀 Want to learn more?
+3. **Iniciar el servidor de desarrollo:**
+   ```bash
+   pnpm dev
+   ```
+   Abre [http://localhost:4321](http://localhost:4321) en tu navegador.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+4. **Compilar para producción:**
+   ```bash
+   pnpm build
+   ```
+
+5. **Previsualizar la compilación de producción:**
+   ```bash
+   pnpm preview
+   ```
+
+---
+
+## 📬 Contacto
+
+- **Nombre**: Martín Hernández
+- **Rol**: Desarrollador Fullstack
+- **Sitio Web**: [martinstevenht.com](https://www.martinstevenht.com)
+- **LinkedIn**: [Martín Hernández Torres](https://www.linkedin.com/in/martin-hern%C3%A1ndez-torres-4778a3267/)
+- **GitHub**: [@stevenht19](https://github.com/stevenht19)
+- **Email**: [mstvdev19@gmail.com](mailto:mstvdev19@gmail.com)
+
+---
+
+<div align="center">
+  <sub>Diseñado y desarrollado por Martín Hernández. Todos los derechos reservados.</sub>
+</div>

@@ -1,0 +1,39 @@
+---
+import BackgroundGrid from "@components/ui/BackgroundGrid.astro";
+import ExperienceBigWord from "./ExperienceBigWord";
+
+interface Props {
+  word?: string;
+  class?: string;
+}
+
+const { word = "TRAYECTORIA", class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "experience-background pointer-events-none absolute inset-0 overflow-hidden",
+    className,
+  ]}
+>
+  <BackgroundGrid />
+  <div
+    class="experience-orb-3 pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-primary/5 blur-[130px]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <ExperienceBigWord word={word} client:visible />
+
+  <div
+    class="pointer-events-none absolute top-0 inset-x-0 z-20 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="pointer-events-none absolute bottom-0 inset-x-0 z-20 h-px bg-white/6"
+    aria-hidden="true"
+  >
+  </div>
+</div>

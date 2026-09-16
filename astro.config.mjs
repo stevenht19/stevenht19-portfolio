@@ -1,22 +1,16 @@
 import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
 
-// https://astro.build/config
-import tailwind from '@astrojs/tailwind';
-
-// https://astro.build/config
 import preact from '@astrojs/preact';
 
-// https://astro.build/config
-import image from "@astrojs/image";
-
-// https://astro.build/config
 export default defineConfig({
-  markdown: {
-    shikiConfig: {
-      theme: 'dracula',
-    },
+  site: 'https://www.martinstevenht.com',
+  vite: {
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['gsap', 'gsap/ScrollTrigger']
+    }
   },
-  integrations: [tailwind(), preact({
-    compat: true
-  }), image({ serviceEntryPoint: '@astrojs/image/sharp' })]
+
+  integrations: [preact()]
 });

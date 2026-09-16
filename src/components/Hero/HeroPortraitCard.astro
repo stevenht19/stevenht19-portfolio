@@ -1,0 +1,173 @@
+---
+import { Image } from "astro:assets";
+import { SITE_INFO } from "@data/site";
+import mePhoto from "@assets/me2.png";
+
+interface Props {
+  image?: ImageMetadata;
+  alt?: string;
+}
+
+const { image = mePhoto, alt = `${SITE_INFO.name} - ${SITE_INFO.role}` } =
+  Astro.props;
+---
+
+<div
+  class="hero-feature relative w-full max-w-58 sm:max-w-62 md:max-w-80 mx-auto md:mx-0 md:ml-auto lg:max-w-86 xl:max-w-114 2xl:max-w-152 3xl:max-w-3xl -translate-y-2 sm:-translate-y-5 xl:translate-y-0 select-none"
+>
+  <div class="hero-feature-inner relative">
+    <div
+      class="hero-feature-glow pointer-events-none absolute -inset-10 2xl:-inset-16 3xl:-inset-24 rounded-full opacity-75 blur-3xl 3xl:blur-[110px]"
+      style="background: radial-gradient(closest-side, rgba(147, 51, 234, 0.38), rgba(59, 130, 246, 0.24) 50%, rgba(212, 255, 0, 0.07) 78%, transparent 95%);"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div
+      class="hero-feature-card relative overflow-hidden rounded-4xl sm:rounded-[2.5rem] 2xl:rounded-[3rem] 3xl:rounded-[3.5rem] opacity-0 will-change-transform"
+    >
+      <Image
+        src={image}
+        alt={alt}
+        width={524}
+        height={765}
+        loading="eager"
+        decoding="async"
+        quality={90}
+        class="hero-feature-img pointer-events-none block object-cover"
+      />
+      <div
+        class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[28%] bg-linear-to-t from-zinc-950/60 via-zinc-950/5 to-transparent"
+        aria-hidden="true"
+      >
+      </div>
+    </div>
+
+    <p
+      class="hero-feature-caption relative z-10 mt-3.5 sm:mt-5 flex items-center justify-center gap-2 text-xs sm:text-sm text-zinc-400 opacity-0"
+    >
+      <a
+        href={SITE_INFO.socials.github.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-medium text-zinc-300 transition-colors duration-300 hover:text-primary"
+        >@stevenht19</a
+      >
+      <span class="text-zinc-600" aria-hidden="true">·</span>
+      <span>Full-Stack Dev</span>
+    </p>
+  </div>
+</div>
+
+<style>
+  .hero-feature-card {
+    will-change: transform, opacity;
+  }
+</style>
+
+<script>
+  import {
+    gsap,
+    prefersReducedMotion,
+    setupCardTilt,
+    pauseWhenOutOfView,
+    onDomReady,
+  } from "@utils/motion";
+
+  function initHeroPortraitCard() {
+    const feature = document.querySelector(
+      ".hero-feature",
+    ) as HTMLElement | null;
+    const inner = document.querySelector(".hero-feature-inner");
+    const card = document.querySelector(
+      ".hero-feature-card",
+    ) as HTMLElement | null;
+    const caption = document.querySelector(".hero-feature-caption");
+    const glow = document.querySelector(".hero-feature-glow");
+
+    if (!prefersReducedMotion()) {
+      let innerTween: gsap.core.Tween | null = null;
+      let glowTween: gsap.core.Tween | null = null;
+
+      if (inner) {
+        innerTween = gsap.to(inner, {
+          y: -12,
+          duration: 3.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: 1.2,
+        });
+      }
+
+      if (card) {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 52, scale: 0.95, rotation: 1.5 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            rotation: 0,
+            duration: 1.05,
+            delay: 0.35,
+            ease: "power3.out",
+          },
+        );
+      }
+
+      if (caption) {
+        gsap.fromTo(
+          caption,
+          { opacity: 0, y: 18 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            delay: 0.85,
+            ease: "power3.out",
+          },
+        );
+      }
+
+      if (feature && card) {
+        setupCardTilt(card, {
+          trigger: feature,
+          maxTilt: 4.5,
+          perspective: 1000,
+        });
+      }
+
+      if (feature) {
+        gsap.to(feature, {
+          yPercent: -10,
+          opacity: 0.45,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".hero-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
+
+      if (glow) {
+        glowTween = gsap.to(glow, {
+          scale: 1.12,
+          opacity: 0.9,
+          duration: 4,
+          yoyo: true,
+          repeat: -1,
+          ease: "sine.inOut",
+        });
+      }
+
+      pauseWhenOutOfView(".hero-section", [innerTween, glowTween]);
+    } else {
+      gsap.set([card, caption].filter(Boolean), { opacity: 1 });
+    }
+  }
+
+  onDomReady(initHeroPortraitCard);
+</script>

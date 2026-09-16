@@ -1,0 +1,92 @@
+---
+import Button from "@components/ui/Button.astro";
+import Icon from "@components/ui/Icon.astro";
+
+interface Props {
+  technologies: string[];
+  role: string;
+  title: string;
+  preview?: string;
+  repo?: string;
+  chipHoverClass?: string;
+  class?: string;
+}
+
+const {
+  technologies,
+  role,
+  title,
+  preview,
+  repo,
+  chipHoverClass = "",
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "project-card-drawer relative z-10 border-t border-white/7 bg-zinc-950/30",
+    className,
+  ]}
+>
+  <div class="flex flex-col gap-5 p-6 pt-5 sm:p-7 sm:pt-5">
+    <ul class="flex flex-wrap gap-2">
+      {
+        technologies.map((tech) => (
+          <li
+            class:list={[
+              "inline-flex items-center rounded-full border border-white/9 bg-white/4 px-3 py-1 text-xs font-medium text-zinc-300 transition-all duration-300 hover:-translate-y-0.5",
+              chipHoverClass,
+            ]}
+          >
+            {tech}
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center justify-end">
+      <div class="flex items-center gap-2.5">
+        {
+          preview && (
+            <Button
+              href={preview}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="primary"
+              size="sm"
+              data-magnetic
+              class="group/demo will-change-transform"
+            >
+              <span>{repo ? "Ver demo" : "Ver sitio web"}</span>
+              <Icon
+                name="external"
+                class="w-3.25 h-3.25 transition-transform duration-300 group-hover/demo:-translate-y-0.5 group-hover/demo:translate-x-0.5"
+              />
+            </Button>
+          )
+        }
+        {
+          repo && (
+            <Button
+              href={repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="secondary"
+              size="sm"
+              data-magnetic
+              aria-label={`Ver el código de ${title}`}
+              class="group/code will-change-transform h-10! px-4! text-xs font-semibold"
+            >
+              <span>Ver código</span>
+              <Icon
+                name="code"
+                class="w-3.25 h-3.25 transition-transform duration-300 group-hover/code:-translate-y-0.5 group-hover/code:translate-x-0.5 text-zinc-400 group-hover/code:text-white"
+              />
+            </Button>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</div>

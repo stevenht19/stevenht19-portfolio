@@ -1,0 +1,210 @@
+---
+import HeaderBrand from "./HeaderBrand.astro";
+import HeaderNav from "./HeaderNav.astro";
+import HeaderSocials from "./HeaderSocials.astro";
+import HeaderCta from "./HeaderCta.astro";
+import HeaderMenuToggle from "./HeaderMenuToggle.astro";
+import HeaderMobileMenu from "./HeaderMobileMenu.astro";
+import { SITE_INFO, DEFAULT_SOCIAL_LINKS } from "@data/site";
+import { NAV_LINKS } from "@data/navigation";
+import type { HeaderProps } from "@types";
+
+interface Props extends HeaderProps {}
+
+const {
+  brandName = SITE_INFO.name,
+  navLinks = NAV_LINKS,
+  socialLinks = DEFAULT_SOCIAL_LINKS,
+  ctaLabel = "Hablemos",
+  ctaHref = "#contacto",
+  class: className = "",
+} = Astro.props;
+---
+
+<header
+  id="main-header"
+  class:list={[
+    "sticky top-0 z-50 w-full transition-all duration-300 ease-out",
+    className,
+  ]}
+>
+  <div
+    id="header-inner"
+    class="w-full mx-auto flex items-center justify-between gap-4 sm:gap-6 transition-all duration-300 ease-out"
+  >
+    <HeaderBrand name={brandName} />
+    <HeaderNav links={navLinks} />
+    <div class="flex items-center gap-2.5 sm:gap-4">
+      <HeaderSocials socials={socialLinks} />
+      <div class="hidden sm:block w-px h-4 bg-white/10" aria-hidden="true">
+      </div>
+      <HeaderCta label={ctaLabel} href={ctaHref} />
+      <HeaderMenuToggle />
+    </div>
+  </div>
+</header>
+<HeaderMobileMenu links={navLinks} socials={socialLinks} />
+
+<style>
+  #main-header {
+    padding: 0;
+    background-color: rgba(9, 9, 11, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(39, 39, 42, 0.7);
+  }
+
+  #header-inner {
+    max-width: 80rem;
+    height: 4.25rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-radius: 0;
+    border: 1px solid transparent;
+    background: transparent;
+  }
+
+  @media (min-width: 640px) {
+    #header-inner {
+      height: 5rem;
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    #header-inner {
+      max-width: 92rem;
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    #header-inner {
+      max-width: 114rem;
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+  }
+
+  #main-header.is-scrolled {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: transparent;
+    border-bottom-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    pointer-events: none;
+  }
+
+  @media (min-width: 640px) {
+    #main-header.is-scrolled {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  #main-header.is-scrolled #header-inner {
+    max-width: 66rem;
+    height: 3.75rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-radius: 9999px;
+    background-color: rgba(9, 9, 11, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 16px 36px -10px rgba(0, 0, 0, 0.85),
+      0 0 20px rgba(212, 255, 0, 0.05);
+    pointer-events: auto;
+  }
+
+  @media (min-width: 640px) {
+    #main-header.is-scrolled #header-inner {
+      height: 4rem;
+      padding-left: 1.75rem;
+      padding-right: 1.75rem;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    #main-header.is-scrolled #header-inner {
+      max-width: 76rem;
+    }
+  }
+
+  #main-header.is-scrolled :global(.header-brand-link) {
+    transform: translateX(0);
+  }
+</style>
+
+<script>
+  const header = document.getElementById("main-header");
+  const toggleBtn = document.getElementById("menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  const handleScroll = () => {
+    if (!header) return;
+    if (mobileMenu && mobileMenu.classList.contains("is-open")) return;
+    if (window.scrollY > 25) {
+      header.classList.add("is-scrolled");
+    } else {
+      header.classList.remove("is-scrolled");
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  handleScroll();
+
+  if (toggleBtn && mobileMenu) {
+    const setMenuOpen = (open: boolean) => {
+      mobileMenu.classList.toggle("is-open", open);
+      mobileMenu.setAttribute("aria-hidden", String(!open));
+      toggleBtn.classList.toggle("is-active", open);
+      toggleBtn.setAttribute("aria-expanded", String(open));
+      toggleBtn.setAttribute(
+        "aria-label",
+        open ? "Cerrar menú de navegación" : "Abrir menú de navegación",
+      );
+      if (open) {
+        document.body.classList.add("overflow-hidden");
+        header?.classList.remove("is-scrolled");
+      } else {
+        document.body.classList.remove("overflow-hidden");
+        handleScroll();
+      }
+    };
+
+    toggleBtn.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.contains("is-open");
+      setMenuOpen(!isOpen);
+    });
+
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        setMenuOpen(false);
+      });
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) {
+        setMenuOpen(false);
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (
+        window.innerWidth >= 768 &&
+        mobileMenu.classList.contains("is-open")
+      ) {
+        setMenuOpen(false);
+      }
+    });
+  }
+</script>
