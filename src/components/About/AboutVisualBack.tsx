@@ -1,46 +1,12 @@
+import { CODE_LINES } from "./codeLines";
+
 interface AboutVisualBackProps {
   onBackClick: () => void;
 }
 
-const CODE_LINES = [
-  {
-    html: '<span class="text-[#d4ff00] font-semibold">import</span> <span class="text-[#d4ff00] font-semibold">type</span> <span class="text-[#52525b]">{</span> <span class="text-[#a3e635]">DeveloperProfile</span> <span class="text-[#52525b]">}</span> <span class="text-[#d4ff00] font-semibold">from</span> <span class="text-[#86efac]">"@/types"</span><span class="text-[#52525b]">;</span>',
-  },
-  { html: "" },
-  {
-    html: '<span class="text-[#d4ff00] font-semibold">const</span> <span class="text-[#d9f99d]">martin</span><span class="text-[#52525b]">:</span> <span class="text-[#a3e635]">DeveloperProfile</span> <span class="text-[#52525b]">=</span> <span class="text-[#52525b]">{</span>',
-  },
-  {
-    html: '  <span class="text-[#fafafa]">name</span><span class="text-[#52525b]">:</span> <span class="text-[#86efac]">"Martín Hernández"</span><span class="text-[#52525b]">,</span>',
-  },
-  {
-    html: '  <span class="text-[#fafafa]">role</span><span class="text-[#52525b]">:</span> <span class="text-[#86efac]">"Full-Stack Developer"</span><span class="text-[#52525b]">,</span>',
-  },
-  {
-    html: '  <span class="text-[#fafafa]">location</span><span class="text-[#52525b]">:</span> <span class="text-[#86efac]">"Lima, Perú"</span><span class="text-[#52525b]">,</span>',
-  },
-  {
-    html: '  <span class="text-[#fafafa]">skills</span><span class="text-[#52525b]">:</span> <span class="text-[#52525b]">[</span>',
-  },
-  {
-    html: '    <span class="text-[#86efac]">"React"</span><span class="text-[#52525b]">,</span> <span class="text-[#86efac]">"Next.js"</span><span class="text-[#52525b]">,</span> <span class="text-[#86efac]">"NestJS"</span><span class="text-[#52525b]">,</span> <span class="text-[#86efac]">"Node.js"</span><span class="text-[#52525b]">,</span>',
-  },
-  { html: '  <span class="text-[#52525b]">],</span>' },
-  {
-    html: '  <span class="text-[#fafafa]">experience</span><span class="text-[#52525b]">:</span> <span class="text-[#86efac]">"3+ years"</span><span class="text-[#52525b]">,</span>',
-  },
-  { html: '<span class="text-[#52525b]">};</span>' },
-  { html: "" },
-  {
-    html: '<span class="text-[#d4ff00] font-semibold">export</span> <span class="text-[#d4ff00] font-semibold">default</span> <span class="text-[#d9f99d]">martin</span><span class="text-[#52525b]">;</span>',
-  },
-];
-
-export default function AboutVisualBack({
-  onBackClick,
-}: AboutVisualBackProps) {
+export default function AboutVisualBack({ onBackClick }: AboutVisualBackProps) {
   return (
-    <div className="absolute inset-0 flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a0c11] [transform:rotateY(180deg)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
+    <div className="absolute inset-0 flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a0c11] transform-[rotateY(180deg)] backface-hidden [-webkit-backface-visibility:hidden]">
       <div className="flex items-center justify-between border-b border-white/10 bg-white/2 px-4 py-2.5">
         <div className="flex items-center gap-1.5" aria-hidden="true">
           <span className="h-2 w-2 rounded-full bg-red-500/70" />
@@ -72,7 +38,7 @@ export default function AboutVisualBack({
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="select-text flex-1 overflow-y-auto overflow-x-auto p-3.5 sm:p-4 font-mono text-[13px] sm:text-[14px] md:text-[15px] leading-[1.65] text-zinc-300 [scrollbar-width:thin] [scrollbar-color:rgba(212,255,0,0.25)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15 hover:[&::-webkit-scrollbar-thumb]:bg-primary/40 [-webkit-overflow-scrolling:touch]"
+        className="select-text flex-1 overflow-y-auto overflow-x-auto p-3.5 sm:p-4 font-mono text-[13px] sm:text-[14px] md:text-[15px] leading-[1.65] text-zinc-300 scrollbar-thin [scrollbar-color:rgba(212,255,0,0.25)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15 hover:[&::-webkit-scrollbar-thumb]:bg-primary/40 [-webkit-overflow-scrolling:touch]"
       >
         {CODE_LINES.map((line, idx) => (
           <div
@@ -92,7 +58,6 @@ export default function AboutVisualBack({
           <span className="text-primary font-bold">&gt;</span>
           <span>compiled successfully</span>
         </span>
-        <span>ts // 5.9</span>
       </div>
     </div>
   );

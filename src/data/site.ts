@@ -7,6 +7,21 @@ export const SITE_INFO: SiteInfo = {
   location: "Lima, Perú",
   email: "mstvdev19@gmail.com",
   whatsapp: "https://wa.me/51981729976?text=Hola%20Mart%C3%ADn%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20hablar%20de%20un%20proyecto",
+  url: "https://www.martinstevenht.com",
+  keywords: [
+    "Martín Hernández",
+    "stevenht19",
+    "Desarrollador Fullstack",
+    "Frontend Developer",
+    "Backend Developer",
+    "React",
+    "TypeScript",
+    "Node.js",
+    "Astro",
+    "Next.js",
+    "Desarrollador Web Lima Perú",
+    "Portafolio Desarrollador",
+  ],
   socials: {
     github: {
       name: "GitHub",

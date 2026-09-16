@@ -20,5 +20,12 @@ const { name = SITE_INFO.name, href = "/", class: className = "" } = Astro.props
   ]}
   aria-label={`${name} - Inicio`}
 >
-  <Image src={logoImg} alt="Logo" width={44} height={44} class="h-9 sm:h-10 w-auto" loading="eager" />
+  <Image
+    src={logoImg}
+    alt={`Logotipo personal de ${name}`}
+    width={44}
+    height={44}
+    class="h-9 sm:h-10 w-auto"
+    loading="eager"
+  />
 </a>

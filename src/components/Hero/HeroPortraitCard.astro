@@ -13,7 +13,7 @@ const { image = mePhoto, alt = `${SITE_INFO.name} - ${SITE_INFO.role}` } =
 ---
 
 <div
-  class="hero-feature relative w-full max-w-52 sm:max-w-72 md:max-w-84 mx-auto md:mx-0 md:ml-auto lg:max-w-86 xl:max-w-114 2xl:max-w-152 3xl:max-w-3xl -translate-y-2 sm:-translate-y-5 xl:translate-y-0 select-none"
+  class="hero-feature relative w-full max-w-58 sm:max-w-62 md:max-w-80 mx-auto md:mx-0 md:ml-auto lg:max-w-86 xl:max-w-114 2xl:max-w-152 3xl:max-w-3xl -translate-y-2 sm:-translate-y-5 xl:translate-y-0 select-none"
 >
   <div class="hero-feature-inner relative">
     <div
@@ -75,9 +75,13 @@ const { image = mePhoto, alt = `${SITE_INFO.name} - ${SITE_INFO.role}` } =
   } from "@utils/motion";
 
   function initHeroPortraitCard() {
-    const feature = document.querySelector(".hero-feature") as HTMLElement | null;
+    const feature = document.querySelector(
+      ".hero-feature",
+    ) as HTMLElement | null;
     const inner = document.querySelector(".hero-feature-inner");
-    const card = document.querySelector(".hero-feature-card") as HTMLElement | null;
+    const card = document.querySelector(
+      ".hero-feature-card",
+    ) as HTMLElement | null;
     const caption = document.querySelector(".hero-feature-caption");
     const glow = document.querySelector(".hero-feature-glow");
 

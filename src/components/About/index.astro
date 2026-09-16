@@ -19,7 +19,7 @@ const { class: className = "" } = Astro.props;
   id="acerca"
   aria-label="Sobre mí"
   class:list={[
-    "relative border-y border-white/8 bg-[#07080c] py-24 xl:py-34",
+    "relative border-y border-white/8 bg-[#07080c] pb-16 xl:py-34",
     className,
   ]}
 >
@@ -82,7 +82,7 @@ const { class: className = "" } = Astro.props;
       </div>
 
       <div
-        class="about-photo w-full max-w-[280px] sm:max-w-xs md:max-w-sm lg:max-w-sm xl:max-w-md mx-auto lg:mx-0"
+        class="about-photo w-full max-w-70 sm:max-w-xs md:max-w-sm lg:max-w-sm xl:max-w-md mx-auto lg:mx-0"
       >
         <AboutVisual client:visible>
           <Image

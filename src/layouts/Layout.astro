@@ -6,26 +6,115 @@ import "@styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  canonicalUrl?: string;
 }
 
 const {
-  title = `${SITE_INFO.name} | ${SITE_INFO.role}`,
-  description = `${SITE_INFO.name} - ${SITE_INFO.role} en ${SITE_INFO.location}. ${SITE_INFO.bio}`,
+  title = `${SITE_INFO.name} | ${SITE_INFO.role} - Portafolio`,
+  description = `${SITE_INFO.name} - ${SITE_INFO.role} en ${SITE_INFO.location}. Especializado en diseñar y construir aplicaciones web modernas, rápidas y escalables.`,
+  image = "/favicon.png",
+  canonicalUrl = Astro.url?.href || SITE_INFO.url,
 } = Astro.props;
+
+const siteUrl = SITE_INFO.url.replace(/\/$/, "");
+const ogImageUrl = image.startsWith("http") ? image : `${siteUrl}${image.startsWith("/") ? "" : "/"}${image}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      name: SITE_INFO.name,
+      jobTitle: SITE_INFO.role,
+      description: SITE_INFO.bio,
+      url: siteUrl,
+      image: ogImageUrl,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Lima",
+        addressCountry: "PE",
+      },
+      sameAs: [
+        SITE_INFO.socials.github.href,
+        SITE_INFO.socials.linkedin.href,
+      ],
+      knowsAbout: [
+        "Fullstack Development",
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Astro",
+        "Next.js",
+        "PostgreSQL",
+        "Tailwind CSS",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: `${SITE_INFO.name} - Portafolio Profesional`,
+      description: description,
+      publisher: {
+        "@id": `${siteUrl}/#person`,
+      },
+      inLanguage: "es-PE",
+    },
+  ],
+};
 ---
 
-<html lang="es">
+<!doctype html>
+<html lang="es" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={SITE_INFO.keywords.join(", ")} />
+    <meta name="author" content={SITE_INFO.name} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta name="theme-color" content="#09090b" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={`${SITE_INFO.name} - ${SITE_INFO.role}`} />
+    <meta property="og:site_name" content={`${SITE_INFO.name} Portfolio`} />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={`${SITE_INFO.name} - ${SITE_INFO.role}`} />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body
-    class="bg-zinc-950 text-zinc-100 antialiased min-h-screen overflow-x-hidden"
-  >
+  <body class="bg-zinc-950 text-zinc-100 antialiased min-h-screen overflow-x-hidden selection:bg-primary selection:text-zinc-950">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:rounded-full focus:bg-primary focus:text-zinc-950 focus:font-semibold focus:shadow-lg focus:outline-none"
+    >
+      Saltar al contenido principal
+    </a>
     <slot />
   </body>
 </html>

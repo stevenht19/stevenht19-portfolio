@@ -26,6 +26,8 @@ export interface SiteInfo {
   location: string;
   email?: string;
   whatsapp?: string;
+  url: string;
+  keywords: string[];
   socials: {
     github: SocialLink;
     linkedin: SocialLink;
