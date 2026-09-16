@@ -21,11 +21,11 @@ const {
 } = Astro.props;
 
 const baseStyles =
-  "inline-flex items-center px-4 py-2.5 justify-center font-medium rounded-full transition-colors duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary";
+  "inline-flex items-center py-2.5 justify-center font-medium rounded-full transition-colors transition-transform duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary";
 
 const sizeStyles: Record<string, string> = {
   sm: "px-3 sm:px-4 py-2 text-sm gap-1.5",
-  md: "px-3 py-2.5 sm:px-3.5 sm:py-2.5 text-sm font-medium gap-2",
+  md: "px-3 py-2.5 sm:px-5 sm:py-3.5 text-sm font-medium gap-2",
   lg: "px-5 py-2.5 sm:px-7 sm:py-3.5 text-base gap-2.5",
 };
 
@@ -33,7 +33,7 @@ const variantStyles: Record<string, string> = {
   primary:
     "bg-primary hover:bg-[#e4ff4d] text-zinc-950 font-bold shadow-[0_0_28px_rgba(212,255,0,0.3)] hover:shadow-[0_0_42px_rgba(212,255,0,0.55)] hover:-translate-y-0.5 active:translate-y-0",
   secondary:
-    "bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700/80 hover:border-zinc-600 transition-colors duration-300",
+    "border border-white/12 bg-white/3.5 hover:bg-purple-500/10 hover:border-purple-400/35 text-zinc-300 hover:text-white backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0",
   outline:
     "bg-transparent hover:bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700",
   ghost: "bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white",
@@ -46,14 +46,21 @@ const classes = [
   className,
 ];
 
+const isExternal = Boolean(
+  href && (href.startsWith("https://") || href.startsWith("//")),
+);
+const resolvedTarget = target ?? (isExternal ? "_blank" : undefined);
+const resolvedRel =
+  resolvedTarget === "_blank" ? rel || "noopener noreferrer" : rel;
+
 const Tag = href ? "a" : "button";
 ---
 
 <Tag
   href={href}
   class:list={classes}
-  target={target}
-  rel={target === "_blank" ? rel || "noopener noreferrer" : rel}
+  target={resolvedTarget}
+  rel={resolvedRel}
   {...rest}
 >
   <slot />

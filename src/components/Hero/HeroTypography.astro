@@ -22,10 +22,8 @@ const lastName = parts.length > 1 ? parts[parts.length - 1] : "";
   class:list={["hero-typography-container space-y-4 select-none", className]}
 >
   <div class="tracking-tight leading-[1.02]">
-    <div
-      class="text-xl sm:text-2xl lg:text-3xl font-display font-medium text-zinc-400 mb-1 sm:mb-2"
-      aria-label={greeting}
-    >
+    <p class="text-xl sm:text-2xl lg:text-3xl font-display font-medium text-zinc-400 mb-1 sm:mb-2">
+      <span class="sr-only">{greeting}</span>
       <span class="inline-block" aria-hidden="true">
         {
           greeting
@@ -37,13 +35,13 @@ const lastName = parts.length > 1 ? parts[parts.length - 1] : "";
             ))
         }
       </span>
-    </div>
+    </p>
 
     <div class="relative inline-block max-w-4xl w-full">
       <h1
         class="text-[clamp(2.75rem,5.2vw+0.75rem,5.6rem)] font-display font-extrabold text-white leading-[0.95] tracking-tight"
-        aria-label={name}
       >
+        <span class="sr-only">{name}</span>
         <span class="inline-block whitespace-nowrap" aria-hidden="true">
           {
             firstName
@@ -82,97 +80,105 @@ const lastName = parts.length > 1 ? parts[parts.length - 1] : "";
 </div>
 
 <script>
-  import { gsap } from "gsap";
+  import {
+    gsap,
+    prefersReducedMotion,
+    onDomReady,
+    pauseWhenOutOfView,
+  } from "@utils/motion";
 
-  const greetingChars = document.querySelectorAll(".hero-greeting-char");
-  const nameChars = document.querySelectorAll(".hero-name-char");
-  const bio = document.querySelector(".hero-bio");
+  function initHeroTypography() {
+    const greetingChars = document.querySelectorAll(".hero-greeting-char");
+    const nameChars = document.querySelectorAll(".hero-name-char");
+    const bio = document.querySelector(".hero-bio");
 
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+    if (!prefersReducedMotion()) {
+      let loopTween: gsap.core.Tween | null = null;
 
-  if (!prefersReducedMotion) {
-    const tl = gsap.timeline({
-      delay: 0.1,
-      onComplete: () => {
-        if (nameChars.length > 0) {
-          gsap.to(nameChars, {
-            y: -7,
-            duration: 1.5,
-            ease: "sine.inOut",
-            stagger: {
-              each: 0.08,
-              repeat: -1,
-              yoyo: true,
-            },
-          });
-        }
-      },
-    });
-
-    if (greetingChars.length > 0) {
-      tl.fromTo(
-        greetingChars,
-        {
-          opacity: 0,
-          y: 18,
-          filter: "blur(4px)",
+      const tl = gsap.timeline({
+        delay: 0.1,
+        onComplete: () => {
+          if (nameChars.length > 0) {
+            loopTween = gsap.to(nameChars, {
+              y: -7,
+              duration: 1.5,
+              ease: "sine.inOut",
+              stagger: {
+                each: 0.08,
+                repeat: -1,
+                yoyo: true,
+              },
+            });
+            pauseWhenOutOfView(".hero-section", [loopTween]);
+          }
         },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.45,
-          stagger: 0.025,
-          ease: "power3.out",
-        },
-      );
+      });
+
+      if (greetingChars.length > 0) {
+        tl.fromTo(
+          greetingChars,
+          {
+            opacity: 0,
+            y: 18,
+            filter: "blur(4px)",
+          },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.45,
+            stagger: 0.025,
+            ease: "power3.out",
+          },
+        );
+      }
+
+      if (nameChars.length > 0) {
+        tl.fromTo(
+          nameChars,
+          {
+            opacity: 0,
+            y: 26,
+            filter: "blur(6px)",
+          },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.6,
+            stagger: 0.03,
+            ease: "power3.out",
+          },
+          "-=0.25",
+        );
+      }
+
+      if (bio) {
+        tl.fromTo(
+          bio,
+          {
+            opacity: 0,
+            y: 16,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            ease: "power3.out",
+          },
+          "-=0.25",
+        );
+      }
+    } else {
+      gsap.set([...greetingChars, ...nameChars, bio].filter(Boolean), {
+        opacity: 1,
+        y: 0,
+        scaleX: 1,
+        scale: 1,
+        filter: "blur(0px)",
+      });
     }
-
-    if (nameChars.length > 0) {
-      tl.fromTo(
-        nameChars,
-        {
-          opacity: 0,
-          y: 26,
-          filter: "blur(6px)",
-        },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.6,
-          stagger: 0.03,
-          ease: "power3.out",
-        },
-        "-=0.25",
-      );
-    }
-
-    if (bio) {
-      tl.fromTo(
-        bio,
-        {
-          opacity: 0,
-          y: 16,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.55,
-          ease: "power3.out",
-        },
-        "-=0.25",
-      );
-    }
-  } else {
-    gsap.set([...greetingChars, ...nameChars, bio].filter(Boolean), {
-      opacity: 1,
-      y: 0,
-      scaleX: 1,
-      scale: 1,
-      filter: "blur(0px)",
-    });
   }
+
+  onDomReady(initHeroTypography);
 </script>

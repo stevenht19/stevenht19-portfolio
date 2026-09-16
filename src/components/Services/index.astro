@@ -1,10 +1,10 @@
 ---
 import ServicesCard from "./ServicesCard.astro";
 import Icon from "@components/ui/Icon.astro";
-import GlossyBackdrop from "@components/ui/GlossyBackdrop.astro";
+import BackgroundGrid from "@components/ui/BackgroundGrid.astro";
 import SectionEyebrow from "@components/ui/SectionEyebrow.astro";
 import { SERVICES_DATA } from "@data/services";
-import SectionCtaButton from "@components/ui/SectionCtaButton.astro";
+import Button from "@components/ui/Button.astro";
 import ServicesCtaBanner from "./ServicesCtaBanner.astro";
 ---
 
@@ -13,7 +13,7 @@ import ServicesCtaBanner from "./ServicesCtaBanner.astro";
   class="services-section relative overflow-hidden border-y border-white/8 bg-zinc-950 py-24 sm:py-28 lg:py-36"
   aria-label="Servicios profesionales"
 >
-  <GlossyBackdrop />
+  <BackgroundGrid />
 
   <div
     class="pointer-events-none absolute top-0 inset-x-0 z-20 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent"
@@ -56,12 +56,19 @@ import ServicesCtaBanner from "./ServicesCtaBanner.astro";
           se vea, venda y trabaje mejor en línea.
         </p>
         <div class="services-cta-wrap opacity-0 lg:text-right">
-          <SectionCtaButton
+          <Button
             href="#contacto"
-            label="Hablemos de tu proyecto"
-            variant="primary"
-            icon="arrow-down"
-          />
+            variant="secondary"
+            size="md"
+            data-magnetic
+            class="gap-2.5"
+          >
+            <span>Hablemos de tu proyecto</span>
+            <Icon
+              name="arrow-down"
+              class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-y-0.5"
+            />
+          </Button>
         </div>
       </div>
     </header>
@@ -80,15 +87,15 @@ import ServicesCtaBanner from "./ServicesCtaBanner.astro";
 </section>
 
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
+  import {
+    gsap,
+    prefersReducedMotion,
+    onDomReady,
+    initMagneticElements,
+  } from "@utils/motion";
 
   function initServicesAnimations() {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const isReduced = prefersReducedMotion();
 
     const eyebrow = document.querySelector(".services-eyebrow");
     const headingSpans = document.querySelectorAll(".services-heading span");
@@ -97,7 +104,7 @@ import ServicesCtaBanner from "./ServicesCtaBanner.astro";
     const cards = gsap.utils.toArray<HTMLElement>(".services-card");
     const ctaCard = document.querySelector(".services-cta-card");
 
-    if (!prefersReducedMotion) {
+    if (!isReduced) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: "#servicios",
@@ -169,56 +176,35 @@ import ServicesCtaBanner from "./ServicesCtaBanner.astro";
       document
         .querySelectorAll<HTMLElement>(".services-card")
         .forEach((card) => {
+          let cardRect: DOMRect | null = null;
+          card.addEventListener(
+            "pointerenter",
+            () => {
+              cardRect = card.getBoundingClientRect();
+            },
+            { passive: true },
+          );
           card.addEventListener(
             "pointermove",
             (e: PointerEvent) => {
-              const rect = card.getBoundingClientRect();
-              const mx = ((e.clientX - rect.left) / rect.width) * 100;
-              const my = ((e.clientY - rect.top) / rect.height) * 100;
+              if (!cardRect) cardRect = card.getBoundingClientRect();
+              const mx = ((e.clientX - cardRect.left) / cardRect.width) * 100;
+              const my = ((e.clientY - cardRect.top) / cardRect.height) * 100;
               card.style.setProperty("--mx", `${mx}%`);
               card.style.setProperty("--my", `${my}%`);
             },
             { passive: true },
           );
+          card.addEventListener(
+            "pointerleave",
+            () => {
+              cardRect = null;
+            },
+            { passive: true },
+          );
         });
 
-      const magneticEls =
-        document.querySelectorAll<HTMLElement>("[data-magnetic]");
-      magneticEls.forEach((el) => {
-        const xTo = gsap.quickTo(el, "x", {
-          duration: 0.38,
-          ease: "power2.out",
-        });
-        const yTo = gsap.quickTo(el, "y", {
-          duration: 0.38,
-          ease: "power2.out",
-        });
-
-        el.addEventListener(
-          "pointermove",
-          (e: PointerEvent) => {
-            const rect = el.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            xTo((e.clientX - centerX) * 0.35);
-            yTo((e.clientY - centerY) * 0.35);
-          },
-          { passive: true },
-        );
-
-        el.addEventListener(
-          "pointerleave",
-          () => {
-            gsap.to(el, {
-              x: 0,
-              y: 0,
-              duration: 0.7,
-              ease: "elastic.out(1, 0.4)",
-            });
-          },
-          { passive: true },
-        );
-      });
+      initMagneticElements(document.getElementById("servicios") || document);
     } else {
       gsap.set(
         [
@@ -234,9 +220,5 @@ import ServicesCtaBanner from "./ServicesCtaBanner.astro";
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initServicesAnimations);
-  } else {
-    initServicesAnimations();
-  }
+  onDomReady(initServicesAnimations);
 </script>

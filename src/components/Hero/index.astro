@@ -1,4 +1,5 @@
 ---
+import { SITE_INFO } from "@data/site";
 import HeroBackground from "./HeroBackground.astro";
 import HeroPortraitCard from "./HeroPortraitCard.astro";
 import HeroTypography from "./HeroTypography.astro";
@@ -19,7 +20,7 @@ const {
   class: className = "",
   greeting,
   name,
-  primaryHref,
+  primaryHref = SITE_INFO.whatsapp,
   primaryLabel,
   secondaryHref,
   secondaryLabel,

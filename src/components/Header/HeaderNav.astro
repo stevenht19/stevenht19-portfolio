@@ -15,13 +15,20 @@ const { links = NAV_LINKS, class: className = "" } = Astro.props;
   aria-label="Navegación principal"
 >
   {
-    links.map((link) => (
-      <a
-        href={link.href}
-        class="header-nav-link text-sm font-medium text-zinc-400 hover:text-white transition-colors relative py-1 group"
-      >
-        <span>{link.label}</span>
-      </a>
-    ))
+    links.map((link) => {
+      const isExternal = Boolean(
+        link.href && (link.href.startsWith("http://") || link.href.startsWith("https://") || link.href.startsWith("//")),
+      );
+      return (
+        <a
+          href={link.href}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          class="header-nav-link text-sm font-medium text-zinc-400 hover:text-white transition-colors relative py-1 group"
+        >
+          <span>{link.label}</span>
+        </a>
+      );
+    })
   }
 </nav>

@@ -31,21 +31,28 @@ const {
     aria-label="Navegación móvil"
   >
     {
-      links.map((link, index) => (
-        <a
-          href={link.href}
-          class="mobile-nav-link group flex items-center justify-between py-4 sm:py-5 text-2xl sm:text-3xl font-display font-medium text-zinc-300 hover:text-white transition-colors"
-          style={`--item-index: ${index};`}
-        >
-          <span class="tracking-tight">{link.label}</span>
-          <span
-            class="text-zinc-600 group-hover:text-zinc-200 text-sm font-mono transition-transform duration-200 group-hover:translate-x-1"
-            aria-hidden="true"
+      links.map((link, index) => {
+        const isExternal = Boolean(
+          link.href && (link.href.startsWith("http://") || link.href.startsWith("https://") || link.href.startsWith("//")),
+        );
+        return (
+          <a
+            href={link.href}
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
+            class="mobile-nav-link group flex items-center justify-between py-4 sm:py-5 text-2xl sm:text-3xl font-display font-medium text-zinc-300 hover:text-white transition-colors"
+            style={`--item-index: ${index};`}
           >
-            →
-          </span>
-        </a>
-      ))
+            <span class="tracking-tight">{link.label}</span>
+            <span
+              class="text-zinc-600 group-hover:text-zinc-200 text-sm font-mono transition-transform duration-200 group-hover:translate-x-1"
+              aria-hidden="true"
+            >
+              →
+            </span>
+          </a>
+        );
+      })
     }
   </nav>
   <div

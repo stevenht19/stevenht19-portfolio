@@ -7,7 +7,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: ['three', 'gsap', 'gsap/ScrollTrigger']
+      include: ['gsap', 'gsap/ScrollTrigger']
     }
   },
 

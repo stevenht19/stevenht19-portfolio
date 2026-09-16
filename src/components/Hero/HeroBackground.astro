@@ -1,5 +1,5 @@
 ---
-import HeroDotGrid from "./HeroDotGrid.astro";
+import DotGrid from "@components/ui/DotGrid.astro";
 
 interface Props {
   class?: string;
@@ -13,8 +13,9 @@ const { class: className = "" } = Astro.props;
     class="pointer-events-none absolute inset-0 z-0"
     style="background: radial-gradient(ellipse 70% 55% at 78% 25%, rgba(139, 92, 246, 0.22), transparent 65%), radial-gradient(ellipse 60% 50% at 18% 75%, rgba(37, 99, 235, 0.18), transparent 60%), radial-gradient(circle 35% at 50% 45%, rgba(212, 255, 0, 0.035), transparent 60%);"
     aria-hidden="true"
-  ></div>
+  >
+  </div>
   <div class="absolute inset-0 z-1">
-    <HeroDotGrid />
+    <DotGrid id="hero-dot-grid" />
   </div>
 </div>

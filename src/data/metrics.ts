@@ -36,7 +36,7 @@ export const METRICS_DATA: HeroMetricItem[] = [
     category: "Ubicación",
     type: "location",
     title: "Lima, Perú",
-    label: "Disponible para trabajo remoto global (UTC-5)",
+    label: "Disponible para trabajo remoto global",
     description: "Zona horaria flexible",
     indicatorColor: "#d4ff00",
     isPulse: true,

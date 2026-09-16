@@ -1,0 +1,41 @@
+---
+interface Props {
+  class?: string;
+  size?: number | string;
+  lineAlpha?: number;
+  opacity?: number;
+  mask?: "radial" | "none";
+}
+
+const {
+  class: className = "",
+  size = 64,
+  lineAlpha = 0.045,
+  opacity = 60,
+  mask = "none",
+} = Astro.props;
+
+const sizeValue = typeof size === "number" ? `${size}px` : size;
+
+const maskClasses: Record<string, string> = {
+  radial: "[mask-image:radial-gradient(ellipse_at_center,white,transparent_80%)]",
+  none: "",
+};
+
+const resolvedMask = maskClasses[mask] ?? mask;
+---
+
+<div
+  class:list={[
+    "pointer-events-none absolute inset-0 z-0 overflow-hidden",
+    resolvedMask,
+    className,
+  ]}
+  aria-hidden="true"
+>
+  <div
+    class="absolute inset-0"
+    style={`background-image:linear-gradient(to right,rgba(255,255,255,${lineAlpha}) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,${lineAlpha}) 1px,transparent 1px);background-size:${sizeValue} ${sizeValue};opacity:${opacity / 100};`}
+  >
+  </div>
+</div>

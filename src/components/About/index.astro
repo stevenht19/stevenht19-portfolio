@@ -1,0 +1,145 @@
+---
+import { Image } from "astro:assets";
+import mePhoto from "@assets/me2.png";
+import AboutVisual from "./AboutVisual";
+import Button from "@components/ui/Button.astro";
+import CtaIcon from "@components/ui/CtaIcon.astro";
+import Icon from "@components/ui/Icon.astro";
+import { ABOUT_PARAGRAPHS } from "@data/about";
+import DotGrid from "@components/ui/DotGrid.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<section
+  id="acerca"
+  aria-label="Sobre mí"
+  class:list={[
+    "relative border-y border-white/8 bg-[#07080c] py-24 xl:py-34",
+    className,
+  ]}
+>
+  <div
+    class="mx-auto max-w-7xl px-6 sm:px-10 2xl:max-w-368 2xl:px-12 3xl:max-w-[114rem] 3xl:px-16"
+  >
+    <DotGrid
+      id="about-dot-grid"
+      class="opacity-70 pointer-events-none absolute inset-0 h-full w-full"
+    />
+    <div
+      class="flex flex-col items-center lg:flex-row lg:justify-between lg:items-center gap-12"
+    >
+      <div class="about-text mt-10">
+        <h2
+          class="about-heading mt-6 max-w-4xl font-display text-[clamp(2.75rem,5.2vw+0.75rem,5.6rem)] font-extrabold leading-[0.95] tracking-tight text-white"
+        >
+          Sobre <span
+            class="text-transparent [-webkit-text-stroke:1.5px_rgba(212,255,0,0.65)]"
+          >
+            Mí
+          </span>
+        </h2>
+
+        <div class="about-paragraphs mt-8 max-w-2xl space-y-5">
+          {
+            ABOUT_PARAGRAPHS.map((paragraph) => (
+              <p
+                class="text-base leading-relaxed text-zinc-400 sm:text-lg [&_strong]:font-semibold [&_strong]:text-primary"
+                set:html={paragraph}
+              />
+            ))
+          }
+        </div>
+
+        <div class="about-actions mt-9 flex flex-wrap items-center gap-3.5">
+          <Button
+            href="#contacto"
+            variant="primary"
+            size="md"
+            class="gap-3 shadow-[0_0_36px_-6px_rgba(212,255,0,0.48)] hover:shadow-[0_0_54px_-4px_rgba(212,255,0,0.75)]"
+          >
+            <span>Contactar</span>
+            <CtaIcon />
+          </Button>
+
+          <Button
+            href="#experiencia"
+            variant="secondary"
+            size="md"
+            class="gap-2.5"
+          >
+            <span>Ver experiencia</span>
+            <Icon
+              name="arrow-down"
+              class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-y-0.5"
+            />
+          </Button>
+        </div>
+      </div>
+
+      <div
+        class="about-photo w-full max-w-[280px] sm:max-w-xs md:max-w-sm lg:max-w-sm xl:max-w-md mx-auto lg:mx-0"
+      >
+        <AboutVisual client:visible>
+          <Image
+            src={mePhoto}
+            alt="Martín Hernández - Desarrollador Full-Stack"
+            class="relative h-full w-full object-cover object-top"
+            widths={[360, 480, 620]}
+            sizes="(max-width: 1024px) 100vw, 448px"
+            loading="eager"
+          />
+        </AboutVisual>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap, prefersReducedMotion, onDomReady } from "@utils/motion";
+
+  function initAboutAnimations() {
+    if (!prefersReducedMotion()) {
+      gsap.fromTo(
+        ".about-photo",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: "#acerca",
+            start: "top 80%",
+            once: true,
+          },
+        },
+      );
+
+      gsap.fromTo(
+        ".about-text",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          delay: 0.12,
+          scrollTrigger: {
+            trigger: "#acerca",
+            start: "top 80%",
+            once: true,
+          },
+        },
+      );
+    } else {
+      gsap.set([".about-photo", ".about-text"], { opacity: 1, y: 0 });
+    }
+  }
+
+  onDomReady(initAboutAnimations);
+</script>

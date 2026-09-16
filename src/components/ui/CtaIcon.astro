@@ -1,0 +1,51 @@
+---
+interface Props {
+  size?: "sm" | "md" | "lg";
+  class?: string;
+  variant?: "badge" | "plain";
+}
+
+const {
+  size = "md",
+  class: className = "",
+  variant = "badge",
+} = Astro.props;
+
+const sizeStyles: Record<string, string> = {
+  sm: "h-5 w-5 text-[10px]",
+  md: "h-6 w-6 text-xs",
+  lg: "h-6 w-6 text-xs sm:h-7 sm:w-7 sm:text-sm",
+};
+---
+
+{
+  variant === "badge" ? (
+    <span
+      class:list={[
+        "relative z-10 flex items-center justify-center rounded-full bg-zinc-950 text-white shadow-[0_2px_10px_rgba(0,0,0,0.4)] transition-all duration-300 group-hover:scale-110",
+        sizeStyles[size] || sizeStyles.md,
+        className,
+      ]}
+      aria-hidden="true"
+    >
+      <slot>
+        <span
+          class="font-bold leading-none transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          aria-hidden="true"
+        >
+          ↗
+        </span>
+      </slot>
+    </span>
+  ) : (
+    <span
+      class:list={[
+        "text-xs font-bold leading-none transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5",
+        className,
+      ]}
+      aria-hidden="true"
+    >
+      <slot>↗</slot>
+    </span>
+  )
+}

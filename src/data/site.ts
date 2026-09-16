@@ -5,6 +5,8 @@ export const SITE_INFO: SiteInfo = {
   role: "Desarrollador Fullstack",
   bio: "especializado en diseñar y construir aplicaciones web modernas, rápidas y escalables con arquitectura sólida y experiencias fluidas.",
   location: "Lima, Perú",
+  email: "mstvdev19@gmail.com",
+  whatsapp: "https://wa.me/51981729976?text=Hola%20Mart%C3%ADn%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20hablar%20de%20un%20proyecto",
   socials: {
     github: {
       name: "GitHub",
@@ -14,7 +16,7 @@ export const SITE_INFO: SiteInfo = {
     },
     linkedin: {
       name: "LinkedIn",
-      href: "https://linkedin.com/in/stevenht19",
+      href: "https://www.linkedin.com/in/martin-hernández-torres-4778a3267/",
       ariaLabel: "Perfil de LinkedIn de Martín Hernández",
       title: "LinkedIn",
     },

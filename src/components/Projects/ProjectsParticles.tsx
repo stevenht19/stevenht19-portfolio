@@ -67,19 +67,26 @@ export default function ProjectsParticles(props: Props) {
     let particles: Particle[] = [];
     const PARTICLE_COUNT = 55;
 
-    function resize() {
+    function resize(newW?: number, newH?: number) {
       if (!canvas || !section) return;
-      const rect = section.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
+
+      const w =
+        newW !== undefined && newW > 0
+          ? newW
+          : section.clientWidth || (typeof section.getBoundingClientRect === "function" ? section.getBoundingClientRect().width : 0);
+      const h =
+        newH !== undefined && newH > 0
+          ? newH
+          : section.clientHeight || (typeof section.getBoundingClientRect === "function" ? section.getBoundingClientRect().height : 0);
+
+      if (!w || !h) return;
 
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = rect.width;
-      height = rect.height;
+      width = w;
+      height = h;
 
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
@@ -167,14 +174,21 @@ export default function ProjectsParticles(props: Props) {
       }
     }
 
+    let sectionRect: DOMRect | null = null;
+
+    function onPointerEnter() {
+      sectionRect = section.getBoundingClientRect();
+    }
+
     function onPointerMove(e: PointerEvent) {
-      const rect = section.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+      if (!sectionRect) sectionRect = section.getBoundingClientRect();
+      mouse.x = e.clientX - sectionRect.left;
+      mouse.y = e.clientY - sectionRect.top;
       mouse.active = true;
     }
 
     function onPointerLeave() {
+      sectionRect = null;
       mouse.active = false;
       mouse.x = -1000;
       mouse.y = -1000;
@@ -205,27 +219,35 @@ export default function ProjectsParticles(props: Props) {
 
     const resizeObserver =
       typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(() => {
-            resize();
-            if (prefersReducedMotion || !isVisible) {
-              draw();
+        ? new ResizeObserver((entries) => {
+            for (const entry of entries) {
+              const { width: w, height: h } = entry.contentRect;
+              if (w > 0 && h > 0) {
+                resize(w, h);
+                if (prefersReducedMotion || !isVisible) {
+                  draw();
+                }
+              }
             }
           })
         : null;
 
     if (resizeObserver && section) {
       resizeObserver.observe(section);
+    } else {
+      resize();
+      createParticles();
     }
 
+    section.addEventListener("pointerenter", onPointerEnter as EventListener, {
+      passive: true,
+    });
     section.addEventListener("pointermove", onPointerMove as EventListener, {
       passive: true,
     });
     section.addEventListener("pointerleave", onPointerLeave as EventListener, {
       passive: true,
     });
-
-    resize();
-    createParticles();
     draw();
 
     return () => {

@@ -1,0 +1,47 @@
+---
+import SectionEyebrow from "@components/ui/SectionEyebrow.astro";
+
+interface Props {
+  eyebrowLabel?: string;
+  count?: number;
+  startYear?: number | string;
+  endYear?: number | string;
+  title?: string;
+  class?: string;
+}
+
+const {
+  eyebrowLabel = "Trayectoria profesional",
+  count,
+  startYear,
+  endYear,
+  title = "Experiencia profesional",
+  class: className = "",
+} = Astro.props;
+---
+
+<header class:list={["mb-16 sm:mb-20", className]}>
+  <div class="flex flex-wrap items-center justify-between gap-4 pb-1">
+    <SectionEyebrow
+      class="experience-eyebrow opacity-0"
+      label={eyebrowLabel}
+      count={count}
+    />
+    {
+      startYear && endYear && (
+        <span class="experience-monotag inline-flex items-center gap-2.5 opacity-0">
+          <span class="h-px w-6 bg-primary/50" aria-hidden="true" />
+          <span class="font-display text-sm font-medium tracking-tight text-zinc-400">
+            {startYear} — {endYear}
+          </span>
+        </span>
+      )
+    }
+  </div>
+
+  <h2
+    class="experience-heading mt-8 font-display text-[clamp(2.5rem,5vw+1rem,4.5rem)] font-extrabold leading-[0.95] tracking-tight text-white sm:mt-10"
+  >
+    <span class="block opacity-0">{title}</span>
+  </h2>
+</header>

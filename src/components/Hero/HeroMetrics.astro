@@ -79,60 +79,58 @@ const { class: className = "" } = Astro.props;
 </section>
 
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { gsap, prefersReducedMotion, onDomReady } from "@utils/motion";
 
-  gsap.registerPlugin(ScrollTrigger);
+  function initHeroMetrics() {
+    const isReduced = prefersReducedMotion();
+    const metricItems = document.querySelectorAll(".hero-metric-item");
+    const section = document.querySelector(".hero-metrics-section");
 
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
-  const metricItems = document.querySelectorAll(".hero-metric-item");
-  const section = document.querySelector(".hero-metrics-section");
-
-  if (!prefersReducedMotion) {
-    if (metricItems.length > 0) {
-      gsap.fromTo(
-        metricItems,
-        { opacity: 0, y: 34, filter: "blur(4px)" },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.75,
-          ease: "power3.out",
-          stagger: 0.12,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 84%",
-            once: true,
+    if (!isReduced) {
+      if (metricItems.length > 0) {
+        gsap.fromTo(
+          metricItems,
+          { opacity: 0, y: 34, filter: "blur(4px)" },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.75,
+            ease: "power3.out",
+            stagger: 0.12,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 84%",
+              once: true,
+            },
           },
-        },
-      );
-    }
+        );
+      }
 
-    metricItems.forEach((item) => {
-      item.addEventListener(
-        "mouseenter",
-        () => {
-          gsap.to(item, { y: -4, duration: 0.25, ease: "power2.out" });
-        },
-        { passive: true },
-      );
-      item.addEventListener(
-        "mouseleave",
-        () => {
-          gsap.to(item, { y: 0, duration: 0.35, ease: "power2.out" });
-        },
-        { passive: true },
-      );
-    });
-  } else {
-    gsap.set(Array.from(metricItems), {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-    });
+      metricItems.forEach((item) => {
+        item.addEventListener(
+          "mouseenter",
+          () => {
+            gsap.to(item, { y: -4, duration: 0.25, ease: "power2.out" });
+          },
+          { passive: true },
+        );
+        item.addEventListener(
+          "mouseleave",
+          () => {
+            gsap.to(item, { y: 0, duration: 0.35, ease: "power2.out" });
+          },
+          { passive: true },
+        );
+      });
+    } else {
+      gsap.set(Array.from(metricItems), {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+      });
+    }
   }
+
+  onDomReady(initHeroMetrics);
 </script>

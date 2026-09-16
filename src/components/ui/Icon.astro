@@ -5,6 +5,7 @@ interface Props {
     | "linkedin"
     | "external"
     | "arrow-down"
+    | "arrow-up-right"
     | "code"
     | "globe"
     | "layout"
@@ -62,7 +63,7 @@ const {
 }
 
 {
-  name === "external" && (
+  (name === "external" || name === "arrow-up-right") && (
     <svg
       class={className}
       width={width}

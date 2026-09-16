@@ -1,0 +1,155 @@
+---
+import type { AboutExperienceEntry } from "@types";
+import { ABOUT_EXPERIENCE } from "@data/about";
+import ExperienceBackground from "./ExperienceBackground.astro";
+import ExperienceHeader from "./ExperienceHeader.astro";
+import ExperienceItem from "./ExperienceItem.astro";
+
+interface Props {
+  entries?: AboutExperienceEntry[];
+  class?: string;
+}
+
+const { entries = ABOUT_EXPERIENCE, class: className = "" } = Astro.props;
+
+const allYears = entries.flatMap((job) => {
+  const matches = job.timeframe.match(/\d{4}/g) ?? [];
+  return matches.map(Number);
+});
+
+const startYear = allYears.length ? Math.min(...allYears) : 2023;
+const endYear = allYears.length ? Math.max(...allYears) : 2026;
+---
+
+<section
+  id="experiencia"
+  aria-label="Experiencia laboral"
+  class:list={[
+    "experience-section relative overflow-hidden border-y border-white/8 bg-zinc-950 py-24 sm:py-28 lg:py-36",
+    className,
+  ]}
+>
+  <slot name="background">
+    <ExperienceBackground />
+  </slot>
+
+  <div
+    class="relative z-10 mx-auto max-w-7xl px-6 sm:px-9 2xl:max-w-368 2xl:px-12 3xl:max-w-[114rem] 3xl:px-16"
+  >
+    <slot name="header">
+      <ExperienceHeader
+        count={entries.length}
+        startYear={startYear}
+        endYear={endYear}
+      />
+    </slot>
+
+    <slot>
+      <ul class="border-t border-white/8">
+        {entries.map((job) => (
+          <ExperienceItem entry={job} />
+        ))}
+      </ul>
+    </slot>
+  </div>
+</section>
+
+<script>
+  import { gsap, prefersReducedMotion, onDomReady } from "@utils/motion";
+
+  function initExperienceAnimations() {
+    if (!prefersReducedMotion()) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#experiencia",
+          start: "top 78%",
+          once: true,
+        },
+      });
+
+      tl.fromTo(
+        [".experience-eyebrow", ".experience-monotag"].filter(Boolean),
+        { opacity: 0, y: 24, filter: "blur(5px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.85,
+          ease: "power3.out",
+          stagger: 0.1,
+        },
+      );
+
+      tl.fromTo(
+        ".experience-heading span",
+        { opacity: 0, y: 60, filter: "blur(6px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.95,
+          ease: "power3.out",
+          stagger: 0.12,
+        },
+        "-=0.45",
+      );
+
+      tl.fromTo(
+        ".experience-row",
+        { opacity: 0, y: 36, filter: "blur(4px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.1,
+        },
+        "-=0.35",
+      );
+
+      gsap.fromTo(
+        ".experience-row .font-display",
+        { yPercent: 18 },
+        {
+          yPercent: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: ".experience-row",
+            start: "top 82%",
+            once: true,
+          },
+        },
+      );
+
+      gsap.to(".experience-orb-3", {
+        yPercent: 12,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#experiencia",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    } else {
+      gsap.set(
+        [
+          ".experience-eyebrow",
+          ".experience-monotag",
+          ...Array.from(
+            document.querySelectorAll<HTMLElement>(".experience-heading span"),
+          ),
+          ...Array.from(
+            document.querySelectorAll<HTMLElement>(".experience-row"),
+          ),
+        ],
+        { opacity: 1, y: 0, filter: "blur(0px)" },
+      );
+    }
+  }
+
+  onDomReady(initExperienceAnimations);
+</script>

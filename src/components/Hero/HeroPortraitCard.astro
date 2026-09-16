@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import mePhoto from "@assets/me2.png";
 import { SITE_INFO } from "@data/site";
+import mePhoto from "@assets/me2.png";
 
 interface Props {
   image?: ImageMetadata;
@@ -13,7 +13,7 @@ const { image = mePhoto, alt = `${SITE_INFO.name} - ${SITE_INFO.role}` } =
 ---
 
 <div
-  class="hero-feature relative w-full max-w-76 sm:max-w-[24rem] md:max-w-84 mx-auto md:mx-0 md:ml-auto lg:max-w-86 xl:max-w-114 2xl:max-w-152 3xl:max-w-3xl -translate-y-5 xl:translate-y-0 select-none"
+  class="hero-feature relative w-full max-w-52 sm:max-w-72 md:max-w-84 mx-auto md:mx-0 md:ml-auto lg:max-w-86 xl:max-w-114 2xl:max-w-152 3xl:max-w-3xl -translate-y-2 sm:-translate-y-5 xl:translate-y-0 select-none"
 >
   <div class="hero-feature-inner relative">
     <div
@@ -24,7 +24,7 @@ const { image = mePhoto, alt = `${SITE_INFO.name} - ${SITE_INFO.role}` } =
     </div>
 
     <div
-      class="hero-feature-card relative overflow-hidden rounded-[2.5rem] 2xl:rounded-[3rem] 3xl:rounded-[3.5rem] will-change-transform"
+      class="hero-feature-card relative overflow-hidden rounded-4xl sm:rounded-[2.5rem] 2xl:rounded-[3rem] 3xl:rounded-[3.5rem] opacity-0 will-change-transform"
     >
       <Image
         src={image}
@@ -44,7 +44,7 @@ const { image = mePhoto, alt = `${SITE_INFO.name} - ${SITE_INFO.role}` } =
     </div>
 
     <p
-      class="hero-feature-caption relative z-10 mt-5 flex items-center justify-center gap-2 text-sm text-zinc-400"
+      class="hero-feature-caption relative z-10 mt-3.5 sm:mt-5 flex items-center justify-center gap-2 text-xs sm:text-sm text-zinc-400 opacity-0"
     >
       <a
         href={SITE_INFO.socials.github.href}
@@ -61,127 +61,109 @@ const { image = mePhoto, alt = `${SITE_INFO.name} - ${SITE_INFO.role}` } =
 
 <style>
   .hero-feature-card {
-    will-change: transform;
+    will-change: transform, opacity;
   }
 </style>
 
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import {
+    gsap,
+    prefersReducedMotion,
+    setupCardTilt,
+    pauseWhenOutOfView,
+    onDomReady,
+  } from "@utils/motion";
 
-  gsap.registerPlugin(ScrollTrigger);
+  function initHeroPortraitCard() {
+    const feature = document.querySelector(".hero-feature") as HTMLElement | null;
+    const inner = document.querySelector(".hero-feature-inner");
+    const card = document.querySelector(".hero-feature-card") as HTMLElement | null;
+    const caption = document.querySelector(".hero-feature-caption");
+    const glow = document.querySelector(".hero-feature-glow");
 
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-  const finePointer = window.matchMedia("(hover: hover)").matches;
+    if (!prefersReducedMotion()) {
+      let innerTween: gsap.core.Tween | null = null;
+      let glowTween: gsap.core.Tween | null = null;
 
-  const feature = document.querySelector(".hero-feature");
-  const inner = document.querySelector(".hero-feature-inner");
-  const card = document.querySelector(".hero-feature-card");
-  const caption = document.querySelector(".hero-feature-caption");
-  const glow = document.querySelector(".hero-feature-glow");
+      if (inner) {
+        innerTween = gsap.to(inner, {
+          y: -12,
+          duration: 3.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: 1.2,
+        });
+      }
 
-  if (!prefersReducedMotion) {
-    if (inner) {
-      gsap.to(inner, {
-        y: -12,
-        duration: 3.2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: 1.2,
-      });
+      if (card) {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 52, scale: 0.95, rotation: 1.5 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            rotation: 0,
+            duration: 1.05,
+            delay: 0.35,
+            ease: "power3.out",
+          },
+        );
+      }
+
+      if (caption) {
+        gsap.fromTo(
+          caption,
+          { opacity: 0, y: 18 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            delay: 0.85,
+            ease: "power3.out",
+          },
+        );
+      }
+
+      if (feature && card) {
+        setupCardTilt(card, {
+          trigger: feature,
+          maxTilt: 4.5,
+          perspective: 1000,
+        });
+      }
+
+      if (feature) {
+        gsap.to(feature, {
+          yPercent: -10,
+          opacity: 0.45,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".hero-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
+
+      if (glow) {
+        glowTween = gsap.to(glow, {
+          scale: 1.12,
+          opacity: 0.9,
+          duration: 4,
+          yoyo: true,
+          repeat: -1,
+          ease: "sine.inOut",
+        });
+      }
+
+      pauseWhenOutOfView(".hero-section", [innerTween, glowTween]);
+    } else {
+      gsap.set([card, caption].filter(Boolean), { opacity: 1 });
     }
-
-    if (card) {
-      gsap.fromTo(
-        card,
-        { opacity: 0, y: 52, scale: 0.95, rotation: 1.5 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          rotation: 0,
-          duration: 1.05,
-          delay: 0.35,
-          ease: "power3.out",
-        },
-      );
-    }
-
-    if (caption) {
-      gsap.fromTo(
-        caption,
-        { opacity: 0, y: 18 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          delay: 0.85,
-          ease: "power3.out",
-        },
-      );
-    }
-
-    if (feature && card && finePointer) {
-      const rxTo = gsap.quickTo(card, "rotationX", {
-        duration: 0.5,
-        ease: "power2.out",
-      });
-      const ryTo = gsap.quickTo(card, "rotationY", {
-        duration: 0.5,
-        ease: "power2.out",
-      });
-      gsap.set(card, { transformPerspective: 1000 });
-
-      feature.addEventListener(
-        "pointermove",
-        (e: PointerEvent) => {
-          const r = feature.getBoundingClientRect();
-          const px = (e.clientX - r.left) / r.width;
-          const py = (e.clientY - r.top) / r.height;
-          rxTo((py - 0.5) * -4.5);
-          ryTo((px - 0.5) * 4.5);
-        },
-        { passive: true },
-      );
-
-      feature.addEventListener(
-        "pointerleave",
-        () => {
-          rxTo(0);
-          ryTo(0);
-        },
-        { passive: true },
-      );
-    }
-
-    if (feature) {
-      gsap.to(feature, {
-        yPercent: -10,
-        opacity: 0.45,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero-section",
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-    }
-
-    if (glow) {
-      gsap.to(glow, {
-        scale: 1.12,
-        opacity: 0.9,
-        duration: 4,
-        yoyo: true,
-        repeat: -1,
-        ease: "sine.inOut",
-      });
-    }
-  } else {
-    gsap.set([card, caption].filter(Boolean), { opacity: 1 });
   }
+
+  onDomReady(initHeroPortraitCard);
 </script>
