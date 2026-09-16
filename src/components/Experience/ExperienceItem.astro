@@ -12,18 +12,17 @@ const { entry, class: className = "" } = Astro.props;
 
 <li
   class:list={[
-    "experience-row group relative grid gap-6 border-b border-white/8 px-2 py-10 transition-colors duration-500 hover:bg-white/[0.02] sm:px-4 sm:py-12 lg:grid-cols-12 lg:items-start lg:gap-8 lg:px-8",
+    "experience-row group relative grid gap-6 border-b border-white/8 px-2 py-10 transition-colors duration-500 hover:bg-white/2 sm:px-4 sm:py-12 lg:grid-cols-12 lg:items-start lg:gap-8 lg:px-8",
     className,
   ]}
 >
   <span
     class="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-linear-to-r from-primary via-primary/40 to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100"
-    aria-hidden="true"
-  />
+    aria-hidden="true"></span>
 
   <div class="lg:col-span-2" data-magnetic-index>
     <span
-      class="font-display text-5xl font-extrabold leading-none text-transparent opacity-40 transition-all duration-500 group-hover:translate-x-2 group-hover:opacity-90 [-webkit-text-stroke:1px_rgba(212,255,0,0.5)] sm:text-6xl lg:text-7xl"
+      class="font-display text-5xl font-extrabold leading-none text-transparent opacity-70 transition-all duration-500 group-hover:translate-x-2 group-hover:opacity-100 [-webkit-text-stroke:1.2px_rgba(212,255,0,0.85)] group-hover:[-webkit-text-stroke:1.5px_#d4ff00] group-hover:filter-[drop-shadow(0_0_12px_rgba(212,255,0,0.45))] sm:text-6xl lg:text-7xl"
       aria-hidden="true"
     >
       {entry.index}
@@ -42,9 +41,7 @@ const { entry, class: className = "" } = Astro.props;
     </p>
 
     <ul class="mt-5 flex flex-wrap items-center gap-2">
-      {entry.stack.map((tech) => (
-        <ExperienceTechBadge tech={tech} />
-      ))}
+      {entry.stack.map((tech) => <ExperienceTechBadge tech={tech} />)}
     </ul>
   </div>
 

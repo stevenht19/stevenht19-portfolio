@@ -1,0 +1,31 @@
+---
+import Button from "@components/ui/Button.astro";
+import CtaIcon from "@components/ui/CtaIcon.astro";
+import { SITE_INFO } from "@data/site";
+
+interface Props {
+  href?: string;
+  label?: string;
+  class?: string;
+}
+
+const {
+  href = SITE_INFO.whatsapp,
+  label = "Agendar consulta",
+  class: className = "",
+} = Astro.props;
+---
+
+<div class:list={["contact-cta mt-12", className]}>
+  <Button
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    variant="primary"
+    size="lg"
+    class="gap-3 shadow-[0_0_36px_-6px_rgba(212,255,0,0.48)] hover:shadow-[0_0_54px_-4px_rgba(212,255,0,0.75)]"
+  >
+    <span>{label}</span>
+    <CtaIcon />
+  </Button>
+</div>

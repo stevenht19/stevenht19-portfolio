@@ -4,7 +4,7 @@ export const ABOUT_BIO =
   "Desarrollador Full-Stack (+3 años) con experiencia en sistemas HR, CRM, CMS, LMS y comunicación en tiempo real con Twilio y WebSockets. Enfoque en Clean Architecture, principios SOLID y código mantenible.";
 
 export const ABOUT_PARAGRAPHS: string[] = [
-  "Desarrollador Full-Stack con más de 3 años creando soluciones para empresas en EE.UU. y Latam. He construido sistemas <strong>HR, CRM, CMS y LMS</strong>, además de aplicaciones de <strong>voz y video en tiempo real</strong> con Twilio.",
+  "Desarrollador Full-Stack con más de 3 años creando soluciones para empresas en EE.UU. y Latam. He construido sistemas <strong>HR, CRM, CMS y LMS</strong>, además de aplicaciones de voz y video en tiempo real con <strong>Twilio</strong>.",
   "Aplico <strong>Clean Architecture</strong> y principios SOLID para desarrollar software robusto y escalable con React, Next.js, NestJS, TypeScript y PostgreSQL, priorizando rendimiento y código limpio.",
 ];
 

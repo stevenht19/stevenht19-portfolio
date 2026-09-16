@@ -9,7 +9,11 @@ interface Props {
   class?: string;
 }
 
-const { name = SITE_INFO.name, href = "/", class: className = "" } = Astro.props;
+const {
+  name = SITE_INFO.name,
+  href = "#main-content",
+  class: className = "",
+} = Astro.props;
 ---
 
 <a

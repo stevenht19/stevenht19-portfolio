@@ -6,7 +6,7 @@ import Button from "@components/ui/Button.astro";
 import CtaIcon from "@components/ui/CtaIcon.astro";
 import Icon from "@components/ui/Icon.astro";
 import { ABOUT_PARAGRAPHS } from "@data/about";
-import DotGrid from "@components/ui/DotGrid.astro";
+import BackgroundGrid from "../ui/BackgroundGrid.astro";
 
 interface Props {
   class?: string;
@@ -19,23 +19,20 @@ const { class: className = "" } = Astro.props;
   id="acerca"
   aria-label="Sobre mí"
   class:list={[
-    "relative border-y border-white/8 bg-[#07080c] pb-16 xl:py-34",
+    "relative border-y border-white/8 bg-[#07080c] py-24 xl:py-34",
     className,
   ]}
 >
   <div
-    class="mx-auto max-w-7xl px-6 sm:px-10 2xl:max-w-368 2xl:px-12 3xl:max-w-[114rem] 3xl:px-16"
+    class="mx-auto max-w-7xl px-7 sm:px-10 2xl:max-w-368 2xl:px-12 3xl:max-w-[114rem] 3xl:px-16"
   >
-    <DotGrid
-      id="about-dot-grid"
-      class="opacity-70 pointer-events-none absolute inset-0 h-full w-full"
-    />
+    <BackgroundGrid lineAlpha={0.085} opacity={88} mask="radial" />
     <div
       class="flex flex-col items-center lg:flex-row lg:justify-between lg:items-center gap-12"
     >
-      <div class="about-text mt-10">
+      <div class="about-text">
         <h2
-          class="about-heading mt-6 max-w-4xl font-display text-[clamp(2.75rem,5.2vw+0.75rem,5.6rem)] font-extrabold leading-[0.95] tracking-tight text-white"
+          class="about-heading max-w-4xl font-display text-[clamp(2.75rem,5.2vw+0.75rem,5.6rem)] font-extrabold leading-[0.95] tracking-tight text-white"
         >
           Sobre <span
             class="text-transparent [-webkit-text-stroke:1.5px_rgba(212,255,0,0.65)]"
@@ -63,20 +60,25 @@ const { class: className = "" } = Astro.props;
             class="gap-3 shadow-[0_0_36px_-6px_rgba(212,255,0,0.48)] hover:shadow-[0_0_54px_-4px_rgba(212,255,0,0.75)]"
           >
             <span>Contactar</span>
-            <CtaIcon />
+            <CtaIcon size="md" />
           </Button>
 
           <Button
             href="#experiencia"
             variant="secondary"
             size="md"
-            class="gap-2.5"
+            class="gap-3 focus-visible:ring-purple-400/40"
           >
             <span>Ver experiencia</span>
-            <Icon
-              name="arrow-down"
-              class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-y-0.5"
-            />
+            <span
+              class="relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-zinc-300 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 group-hover:text-white"
+              aria-hidden="true"
+            >
+              <Icon
+                name="arrow-up"
+                class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5"
+              />
+            </span>
           </Button>
         </div>
       </div>
